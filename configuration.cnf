@@ -1,0 +1,21 @@
+<project>
+<project_name>Masking v1</project_name>
+<project_start_date>30/05/2019</project_start_date>
+<project_owner>Nikola Milosevic</project_owner>
+<project_owner_contact>nikola.milosevic@manchester.ac.uk</project_owner_contact>
+<algorithms>
+<entity>
+<entity_name>NAME</entity_name>
+<original_name>NAME</original_name>
+<algorithm>BiLSTM_GLoVE</algorithm>
+<masking_type>Reduct</masking_type>
+</entity>
+<entity>
+<entity_name>DATE</entity_name>
+<original_name>DATE</original_name>
+<algorithm>BiLSTM_GLoVE</algorithm>
+<masking_type>Mask</masking_type>
+<masking_class>Mask_date</masking_class>
+</entity>
+</algorithms>
+</project>
