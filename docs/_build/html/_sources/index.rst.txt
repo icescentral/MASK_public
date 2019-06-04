@@ -13,7 +13,14 @@ Welcome to MASK Framework's documentation!
 Classes and functions
 =====================
 .. automodule:: mask_framework
+    :members:
+.. automodule:: ner_plugins
+    :members:
 .. autoclass:: mask_framework.Configuration
+    :members:
+.. autoclass:: ner_plugins.NER_CRF.NER_CRF
+    :members:
+.. autoclass:: ner_plugins.NER_abstract.NER_abstract
     :members:
 
 Indices and tables

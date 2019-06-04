@@ -7,6 +7,10 @@ from nltk.tokenize.util import align_tokens
 from ner_plugins.NER_abstract import NER_abstract
 
 class NER_CRF(NER_abstract):
+    """
+    The class for executing CRF labelling based on i2b2 dataset (2014).
+
+    """
     def __init__(self):
         filename = 'Models/crf_baseline_model.sav'
         self.crf_model = sklearn_crfsuite.CRF(
@@ -22,6 +26,15 @@ class NER_CRF(NER_abstract):
         pass
 
     def custom_span_tokenize(self,text, language='english', preserve_line=True):
+        """
+                Returns a spans of tokens in text.
+
+                :param text: text to split into words
+                :param language: the model name in the Punkt corpus
+                :type language: str
+                :param preserve_line: An option to keep the preserve the sentence and not sentence tokenize it.
+                :type preserver_line: bool
+                """
         tokens = self.custom_word_tokenize(text)
         tokens = ['"' if tok in ['``', "''"] else tok for tok in tokens]
         return align_tokens(tokens, text)
@@ -71,6 +84,13 @@ class NER_CRF(NER_abstract):
         return shape
 
     def word2features(self,sent, i):
+        """
+                  Transforms words into features that are fed into CRF model
+
+                  :param sent: a list of tokens in a single sentence
+                  :param i: position of a transformed word in a given sentence (token sequence)
+                  :type i: int
+                  """
         word = sent[i][0]
         #postag = sent[i][1]
 
@@ -211,6 +231,13 @@ class NER_CRF(NER_abstract):
         return features
 
     def doc2features(self,sent):
+        """
+                  Transforms a sentence to a sequence of features
+
+                  :param sent: a set of tokens that will be transformed to features
+                  :type language: list
+
+                  """
         return [self.word2features(sent['tokens'], i) for i in range(len(sent['tokens']))]
 
     def word2labels(self, sent):
@@ -222,6 +249,13 @@ class NER_CRF(NER_abstract):
         pass
 
     def tokenize_fa(self,documents):
+        """
+                  Tokenization function. Returns list of sequences
+
+                  :param documents: list of texts
+                  :type language: list
+
+                  """
         sequences = []
         sequence = []
         for doc in documents:
@@ -261,6 +295,13 @@ class NER_CRF(NER_abstract):
 
 
     def perform_NER(self,text):
+        """
+                          Implemented function that performs named entity recognition using CRF. Returns a sequence of tuples (token,label).
+
+                          :param text: text over which should be performed named entity recognition
+                          :type language: str
+
+                          """
         X_test = []
         documents = [text]
         sequences = self.tokenize_fa(documents)

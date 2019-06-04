@@ -1,6 +1,6 @@
-from abc import ABC, abstractmethod
 
 class NER_abstract(object):
+    """Abstract class that other NER plugins should implement"""
     def __init__(self):
         """Implementation of initialization"""
 
