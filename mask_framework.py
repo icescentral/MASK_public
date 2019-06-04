@@ -2,8 +2,13 @@
                """
 
 import xml.etree.ElementTree as ET
-
-
+from os import listdir
+from os.path import isfile, join
+import importlib
+import nltk
+import re
+from nltk.tokenize.treebank import TreebankWordTokenizer
+import os
 class Configuration():
     """Class for reading configuration file
 
@@ -34,13 +39,90 @@ class Configuration():
                     for ent in entities:
                         entity[ent.tag] = ent.text
                     self.entities_list.append(entity)
+            if elem.tag == "dataset":
+                for ent in elem:
+                    if ent.tag=="dataset_location":
+                        self.dataset_location = ent.text
+                    if ent.tag=="data_output":
+                        self.data_output = ent.text
+_treebank_word_tokenizer = TreebankWordTokenizer()
+def custom_word_tokenize(text, language='english', preserve_line=False):
+    """
+    Return a tokenized copy of *text*,
+    using NLTK's recommended word tokenizer
+    (currently an improved :class:`.TreebankWordTokenizer`
+    along with :class:`.PunktSentenceTokenizer`
+    for the specified language).
 
+    :param text: text to split into words
+    :param text: str
+    :param language: the model name in the Punkt corpus
+    :type language: str
+    :param preserve_line: An option to keep the preserve the sentence and not sentence tokenize it.
+    :type preserver_line: bool
+    """
+    tokens = []
+    sentences = [text] if preserve_line else nltk.sent_tokenize(text, language)
+    for sent in sentences:
+        for token in _treebank_word_tokenizer.tokenize(sent):
+            if "-" in token:
+                m = re.compile("(\d+)(-)([a-zA-z-]+)")
+                g = m.match(token)
+                if g:
+                    for group in g.groups():
+                        tokens.append(group)
+                else:
+                    tokens.append(token)
+            else:
+                tokens.append(token)
+    return tokens
 def main():
     """Main MASK Framework function
                """
     print("Welcome to MASK")
     cf = Configuration()
     print(cf.entities_list)
+    data = [f for f in listdir(cf.dataset_location) if isfile(join(cf.dataset_location, f))]
+    for file in data:
+        text = open(cf.dataset_location+"/"+file,'r').read()
+        text_tokens = custom_word_tokenize(text,preserve_line=True)
+        output_text = ""
+        tokens = []
+        for entity in cf.entities_list:
+            algorithm = "ner_plugins."+entity['algorithm']
+            masking_type = entity['masking_type']
+            entity_name = entity['entity_name']
+            i = importlib.import_module(algorithm)
+            class_ = getattr(i, entity['algorithm'])
+            instance = class_()
+            result = instance.perform_NER(text)
+            print(result)
+            for i in range(0,len(result)):
+                for j in range(0, len(result[i])):
+                    if result[i][j][1]==entity_name:
+                        if len(tokens)<i+j+1:
+                            tokens.append("XXX")
+                        else:
+                            tokens[i+j]="XXX"
+                    else:
+                        if len(tokens)<i+j+1:
+                            tokens.append(result[i][j][0])
+        for token in tokens:
+            output_text = output_text + " "+token
+            # Create target Directory if don't exist
+        if not os.path.exists(cf.data_output):
+            os.mkdir(cf.data_output)
+        f = open(cf.data_output+"/"+file,"w")
+        f.write(output_text)
+        f.close()
+
+
+
+
+
+
+
+
 
 if __name__=="__main__":
     main()
