@@ -7,7 +7,7 @@ Welcome to MASK Framework's documentation!
 ==========================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: Contents:
 
 Intorduction
