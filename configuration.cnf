@@ -8,7 +8,7 @@
             <entity_name>NAME</entity_name>
             <original_name>NAME</original_name>
             <algorithm>NER_CRF</algorithm>
-            <masking_type>Reduct</masking_type>
+            <masking_type>Redact</masking_type>
         </entity>
         <entity>
             <entity_name>DATE</entity_name>

@@ -69,17 +69,22 @@ def main():
             instance = class_()
             # perform named entity recoginition
             result = instance.perform_NER(text)
-            print(result)
             #Perform masking/redacting
-            for i in range(0,len(result)):
-                for j in range(0, len(result[i])):
-                    if result[i][j][1]==entity_name:
-                        if len(tokens)<i+j+1:
-                            tokens.append("XXX")
+            if masking_type == "Redact":
+                for i in range(0,len(result)):
+                    for j in range(0, len(result[i])):
+                        if result[i][j][1]==entity_name:
+                            if len(tokens)<i+j+1:
+                                tokens.append("XXX")
+                            else:
+                                tokens[i+j]="XXX"
                         else:
-                            tokens[i+j]="XXX"
-                    else:
-                        if len(tokens)<i+j+1:
+                            if len(tokens)<i+j+1:
+                                tokens.append(result[i][j][0])
+            else:
+                for i in range(0, len(result)):
+                    for j in range(0, len(result[i])):
+                        if len(tokens) < i + j + 1:
                             tokens.append(result[i][j][0])
         # create a text back from tokens
         for token in tokens:
