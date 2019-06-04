@@ -1,0 +1,14 @@
+\indexentry{mask\_framework (module)@\spxentry{mask\_framework}\spxextra{module}|hyperpage}{3}
+\indexentry{Configuration (class in mask\_framework)@\spxentry{Configuration}\spxextra{class in mask\_framework}|hyperpage}{3}
+\indexentry{main() (in module mask\_framework)@\spxentry{main()}\spxextra{in module mask\_framework}|hyperpage}{3}
+\indexentry{ner\_plugins (module)@\spxentry{ner\_plugins}\spxextra{module}|hyperpage}{3}
+\indexentry{Configuration (class in mask\_framework)@\spxentry{Configuration}\spxextra{class in mask\_framework}|hyperpage}{3}
+\indexentry{NER\_CRF (class in ner\_plugins.NER\_CRF)@\spxentry{NER\_CRF}\spxextra{class in ner\_plugins.NER\_CRF}|hyperpage}{3}
+\indexentry{custom\_span\_tokenize() (ner\_plugins.NER\_CRF.NER\_CRF method)@\spxentry{custom\_span\_tokenize()}\spxextra{ner\_plugins.NER\_CRF.NER\_CRF method}|hyperpage}{3}
+\indexentry{custom\_word\_tokenize() (ner\_plugins.NER\_CRF.NER\_CRF method)@\spxentry{custom\_word\_tokenize()}\spxextra{ner\_plugins.NER\_CRF.NER\_CRF method}|hyperpage}{3}
+\indexentry{doc2features() (ner\_plugins.NER\_CRF.NER\_CRF method)@\spxentry{doc2features()}\spxextra{ner\_plugins.NER\_CRF.NER\_CRF method}|hyperpage}{3}
+\indexentry{perform\_NER() (ner\_plugins.NER\_CRF.NER\_CRF method)@\spxentry{perform\_NER()}\spxextra{ner\_plugins.NER\_CRF.NER\_CRF method}|hyperpage}{4}
+\indexentry{tokenize\_fa() (ner\_plugins.NER\_CRF.NER\_CRF method)@\spxentry{tokenize\_fa()}\spxextra{ner\_plugins.NER\_CRF.NER\_CRF method}|hyperpage}{4}
+\indexentry{word2features() (ner\_plugins.NER\_CRF.NER\_CRF method)@\spxentry{word2features()}\spxextra{ner\_plugins.NER\_CRF.NER\_CRF method}|hyperpage}{4}
+\indexentry{NER\_abstract (class in ner\_plugins.NER\_abstract)@\spxentry{NER\_abstract}\spxextra{class in ner\_plugins.NER\_abstract}|hyperpage}{4}
+\indexentry{perform\_NER() (ner\_plugins.NER\_abstract.NER\_abstract method)@\spxentry{perform\_NER()}\spxextra{ner\_plugins.NER\_abstract.NER\_abstract method}|hyperpage}{4}
