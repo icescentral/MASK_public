@@ -62,9 +62,12 @@ def main():
             algorithm = "ner_plugins."+entity['algorithm']
             masking_type = entity['masking_type']
             entity_name = entity['entity_name']
+            # Import the right module
             i = importlib.import_module(algorithm)
+            # find a class and instantiate
             class_ = getattr(i, entity['algorithm'])
             instance = class_()
+            # perform named entity recoginition
             result = instance.perform_NER(text)
             print(result)
             #Perform masking/redacting
@@ -78,11 +81,13 @@ def main():
                     else:
                         if len(tokens)<i+j+1:
                             tokens.append(result[i][j][0])
+        # create a text back from tokens
         for token in tokens:
             output_text = output_text + " "+token
             # Create target Directory if don't exist
         if not os.path.exists(cf.data_output):
             os.mkdir(cf.data_output)
+        # write into output files
         f = open(cf.data_output+"/"+file,"w")
         f.write(output_text)
         f.close()
