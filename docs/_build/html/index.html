@@ -48,6 +48,89 @@
 <li><p>The methodology that is applied for each of the steps.</p></li>
 </ul>
 </div>
+<div class="section" id="architectural-considerations">
+<h1>Architectural considerations<a class="headerlink" href="#architectural-considerations" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>The requirements for the configuration file are:</p>
+<ul class="simple">
+<li><p>Store the information about algorithms that should be used for NER</p></li>
+<li><p>This can be done for per entity</p></li>
+<li><dl class="simple">
+<dt>Store information about masking</dt><dd><ul>
+<li><p>Which named entities to mask</p></li>
+<li><p>How these named entities should be masked</p></li>
+<li><p>There can be a choice: do not mask, map and redact</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Talk to ICES what should we implement as examples (name, postcode, age intervals)</p></li>
+<li><p>User can pick algorithm for mapping</p></li>
+<li><p>Algorithms for mapping can be added as plugins</p></li>
+<li><p>Mapping algorithms should be defined for each NER</p></li>
+</ul>
+</div>
+<div class="section" id="architectural-consideration-for-extendable-framework-and-configuration">
+<h2>Architectural consideration for extendable framework and configuration<a class="headerlink" href="#architectural-consideration-for-extendable-framework-and-configuration" title="Permalink to this headline">¶</a></h2>
+<p>For named entity recognition algorithms there are following considerations:</p>
+<ul class="simple">
+<li><p>All implementations should be implemented in a single file as a class</p></li>
+<li><p>All implementations should be stored in a single folder</p></li>
+<li><p>All implementations should inherit same abstract class, implement method initialize (should load the models), perform_NER (takes string and returns an array of tuples with class, begin span, end span).</p></li>
+<li><p>They should all return a subset of defined classes (PATIENT_NAME, DOCTOR_NAME, PROFESSION, ADDRESS, CITY, COUNTRY, POST_CODE, PHONE_NUMBER, EMAIL, WEB_ADDRESS, PATIENT_ID, DOCTOR_ID, ORGANIZATION, DATE)</p></li>
+<li><p>Defined functions in the config file should correspond to the class and file names in this directory</p></li>
+</ul>
+<p>For extensions related to masking functions there are following considerations:</p>
+<ul class="simple">
+<li><p>All implementations should be implemented in a single file as a class</p></li>
+<li><p>All implementations should be all stored in a single folder</p></li>
+<li><p>All implementations should inherit the same abstract class and implement “mask” method that takes as input string to be masked and return masked string (either mapped or redacted in a particular manner).</p></li>
+<li><p>Defined functions in the config file should correspond to the class and file names in this directory</p></li>
+</ul>
+</div>
+<div class="section" id="configuration-file-example-and-explanation">
+<h2>Configuration file example and explanation<a class="headerlink" href="#configuration-file-example-and-explanation" title="Permalink to this headline">¶</a></h2>
+<p>Example of configuration file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">project</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">project_name</span><span class="o">&gt;</span><span class="n">Masking</span> <span class="n">v1</span><span class="o">&lt;/</span><span class="n">project_name</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">project_start_date</span><span class="o">&gt;</span><span class="mi">30</span><span class="o">/</span><span class="mi">05</span><span class="o">/</span><span class="mi">2019</span><span class="o">&lt;/</span><span class="n">project_start_date</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">project_owner</span><span class="o">&gt;</span><span class="n">Nikola</span> <span class="n">Milosevic</span><span class="o">&lt;/</span><span class="n">project_owner</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">project_owner_contact</span><span class="o">&gt;</span><span class="n">nikola</span><span class="o">.</span><span class="n">milosevic</span><span class="nd">@manchester</span><span class="o">.</span><span class="n">ac</span><span class="o">.</span><span class="n">uk</span><span class="o">&lt;/</span><span class="n">project_owner_contact</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">algorithms</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">entity</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">entity_name</span><span class="o">&gt;</span><span class="n">NAME</span><span class="o">&lt;/</span><span class="n">entity_name</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">original_name</span><span class="o">&gt;</span><span class="n">NAME</span><span class="o">&lt;/</span><span class="n">original_name</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">algorithm</span><span class="o">&gt;</span><span class="n">NER_CRF</span><span class="o">&lt;/</span><span class="n">algorithm</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">masking_type</span><span class="o">&gt;</span><span class="n">Redact</span><span class="o">&lt;/</span><span class="n">masking_type</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">entity</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">entity</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">entity_name</span><span class="o">&gt;</span><span class="n">DATE</span><span class="o">&lt;/</span><span class="n">entity_name</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">original_name</span><span class="o">&gt;</span><span class="n">DATE</span><span class="o">&lt;/</span><span class="n">original_name</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">algorithm</span><span class="o">&gt;</span><span class="n">NER_CRF</span><span class="o">&lt;/</span><span class="n">algorithm</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">masking_type</span><span class="o">&gt;</span><span class="n">Mask</span><span class="o">&lt;/</span><span class="n">masking_type</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">masking_class</span><span class="o">&gt;</span><span class="n">Mask_date</span><span class="o">&lt;/</span><span class="n">masking_class</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">entity</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">algorithms</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">dataset</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">dataset_location</span><span class="o">&gt;</span><span class="n">dataset</span><span class="o">/</span><span class="nb">input</span><span class="o">&lt;/</span><span class="n">dataset_location</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">data_output</span><span class="o">&gt;</span><span class="n">dataset</span><span class="o">/</span><span class="n">output</span><span class="o">&lt;/</span><span class="n">data_output</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">dataset</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">project</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="explanation">
+<h2>Explanation<a class="headerlink" href="#explanation" title="Permalink to this headline">¶</a></h2>
+<p>The whole configuration is wrapped in &lt;project&gt; tag. The user can name the project (using &lt;project_name&gt;), and give some basic information about creator and contact details. For each entity, user would like to mask, he/she needs to create &lt;entity&gt; tag.</p>
+<p>Inside &lt;entity&gt; tag, user has to define entity name (using entity_name tag), he can specify original name that his named entity recognizer outputs (using original_name tag), specify NER algorithm for recognition (using &lt;algorithm&gt; tag) and define masking. Masking can be defined by specifying masking type (using masking_type tag). Possible values for masking type are:</p>
+<ul class="simple">
+<li><p>Nothing - does nothing, does not redact or mask entity, but leaves it in text.</p></li>
+<li><p>Mask - masks entity with another string. The way of masking has to be defined with the masking_class tag.</p></li>
+<li><p>Redact - redacts the entity (setting either XXX or entity name - to be discussed in the future).</p></li>
+</ul>
+</div>
+</div>
 <div class="section" id="module-mask_framework">
 <span id="classes-and-functions"></span><h1>Classes and functions<a class="headerlink" href="#module-mask_framework" title="Permalink to this headline">¶</a></h1>
 <p><em>mask_framework.py</em> – Main MASK Framework module</p>

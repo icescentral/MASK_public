@@ -1,5 +1,10 @@
 \select@language {english}
 \contentsline {chapter}{\numberline {1}Intorduction}{1}{chapter.1}
-\contentsline {chapter}{\numberline {2}Classes and functions}{3}{chapter.2}
-\contentsline {chapter}{\numberline {3}Indices and tables}{5}{chapter.3}
-\contentsline {chapter}{Python Module Index}{7}{section*.15}
+\contentsline {chapter}{\numberline {2}Architectural considerations}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}Configuration}{3}{section.2.1}
+\contentsline {section}{\numberline {2.2}Architectural consideration for extendable framework and configuration}{3}{section.2.2}
+\contentsline {section}{\numberline {2.3}Configuration file example and explanation}{4}{section.2.3}
+\contentsline {section}{\numberline {2.4}Explanation}{4}{section.2.4}
+\contentsline {chapter}{\numberline {3}Classes and functions}{5}{chapter.3}
+\contentsline {chapter}{\numberline {4}Indices and tables}{7}{chapter.4}
+\contentsline {chapter}{Python Module Index}{9}{section*.15}

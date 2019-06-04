@@ -114,6 +114,138 @@ The methodology that is applied for each of the steps.
 \end{itemize}
 
 
+\chapter{Architectural considerations}
+\label{\detokenize{index:architectural-considerations}}
+
+\section{Configuration}
+\label{\detokenize{index:configuration}}
+The requirements for the configuration file are:
+\begin{itemize}
+\item {} 
+Store the information about algorithms that should be used for NER
+
+\item {} 
+This can be done for per entity
+
+\item {} \begin{description}
+\item[{Store information about masking}] \leavevmode\begin{itemize}
+\item {} 
+Which named entities to mask
+
+\item {} 
+How these named entities should be masked
+
+\item {} 
+There can be a choice: do not mask, map and redact
+
+\end{itemize}
+
+\end{description}
+
+\item {} 
+Talk to ICES what should we implement as examples (name, postcode, age intervals)
+
+\item {} 
+User can pick algorithm for mapping
+
+\item {} 
+Algorithms for mapping can be added as plugins
+
+\item {} 
+Mapping algorithms should be defined for each NER
+
+\end{itemize}
+
+
+\section{Architectural consideration for extendable framework and configuration}
+\label{\detokenize{index:architectural-consideration-for-extendable-framework-and-configuration}}
+For named entity recognition algorithms there are following considerations:
+\begin{itemize}
+\item {} 
+All implementations should be implemented in a single file as a class
+
+\item {} 
+All implementations should be stored in a single folder
+
+\item {} 
+All implementations should inherit same abstract class, implement method initialize (should load the models), perform\_NER (takes string and returns an array of tuples with class, begin span, end span).
+
+\item {} 
+They should all return a subset of defined classes (PATIENT\_NAME, DOCTOR\_NAME, PROFESSION, ADDRESS, CITY, COUNTRY, POST\_CODE, PHONE\_NUMBER, EMAIL, WEB\_ADDRESS, PATIENT\_ID, DOCTOR\_ID, ORGANIZATION, DATE)
+
+\item {} 
+Defined functions in the config file should correspond to the class and file names in this directory
+
+\end{itemize}
+
+For extensions related to masking functions there are following considerations:
+\begin{itemize}
+\item {} 
+All implementations should be implemented in a single file as a class
+
+\item {} 
+All implementations should be all stored in a single folder
+
+\item {} 
+All implementations should inherit the same abstract class and implement “mask” method that takes as input string to be masked and return masked string (either mapped or redacted in a particular manner).
+
+\item {} 
+Defined functions in the config file should correspond to the class and file names in this directory
+
+\end{itemize}
+
+
+\section{Configuration file example and explanation}
+\label{\detokenize{index:configuration-file-example-and-explanation}}
+Example of configuration file:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{o}{\PYGZlt{}}\PYG{n}{project}\PYG{o}{\PYGZgt{}}
+    \PYG{o}{\PYGZlt{}}\PYG{n}{project\PYGZus{}name}\PYG{o}{\PYGZgt{}}\PYG{n}{Masking} \PYG{n}{v1}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{project\PYGZus{}name}\PYG{o}{\PYGZgt{}}
+    \PYG{o}{\PYGZlt{}}\PYG{n}{project\PYGZus{}start\PYGZus{}date}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{30}\PYG{o}{/}\PYG{l+m+mi}{05}\PYG{o}{/}\PYG{l+m+mi}{2019}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{project\PYGZus{}start\PYGZus{}date}\PYG{o}{\PYGZgt{}}
+    \PYG{o}{\PYGZlt{}}\PYG{n}{project\PYGZus{}owner}\PYG{o}{\PYGZgt{}}\PYG{n}{Nikola} \PYG{n}{Milosevic}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{project\PYGZus{}owner}\PYG{o}{\PYGZgt{}}
+    \PYG{o}{\PYGZlt{}}\PYG{n}{project\PYGZus{}owner\PYGZus{}contact}\PYG{o}{\PYGZgt{}}\PYG{n}{nikola}\PYG{o}{.}\PYG{n}{milosevic}\PYG{n+nd}{@manchester}\PYG{o}{.}\PYG{n}{ac}\PYG{o}{.}\PYG{n}{uk}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{project\PYGZus{}owner\PYGZus{}contact}\PYG{o}{\PYGZgt{}}
+    \PYG{o}{\PYGZlt{}}\PYG{n}{algorithms}\PYG{o}{\PYGZgt{}}
+        \PYG{o}{\PYGZlt{}}\PYG{n}{entity}\PYG{o}{\PYGZgt{}}
+            \PYG{o}{\PYGZlt{}}\PYG{n}{entity\PYGZus{}name}\PYG{o}{\PYGZgt{}}\PYG{n}{NAME}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{entity\PYGZus{}name}\PYG{o}{\PYGZgt{}}
+            \PYG{o}{\PYGZlt{}}\PYG{n}{original\PYGZus{}name}\PYG{o}{\PYGZgt{}}\PYG{n}{NAME}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{original\PYGZus{}name}\PYG{o}{\PYGZgt{}}
+            \PYG{o}{\PYGZlt{}}\PYG{n}{algorithm}\PYG{o}{\PYGZgt{}}\PYG{n}{NER\PYGZus{}CRF}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{algorithm}\PYG{o}{\PYGZgt{}}
+            \PYG{o}{\PYGZlt{}}\PYG{n}{masking\PYGZus{}type}\PYG{o}{\PYGZgt{}}\PYG{n}{Redact}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{masking\PYGZus{}type}\PYG{o}{\PYGZgt{}}
+        \PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{entity}\PYG{o}{\PYGZgt{}}
+        \PYG{o}{\PYGZlt{}}\PYG{n}{entity}\PYG{o}{\PYGZgt{}}
+            \PYG{o}{\PYGZlt{}}\PYG{n}{entity\PYGZus{}name}\PYG{o}{\PYGZgt{}}\PYG{n}{DATE}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{entity\PYGZus{}name}\PYG{o}{\PYGZgt{}}
+            \PYG{o}{\PYGZlt{}}\PYG{n}{original\PYGZus{}name}\PYG{o}{\PYGZgt{}}\PYG{n}{DATE}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{original\PYGZus{}name}\PYG{o}{\PYGZgt{}}
+            \PYG{o}{\PYGZlt{}}\PYG{n}{algorithm}\PYG{o}{\PYGZgt{}}\PYG{n}{NER\PYGZus{}CRF}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{algorithm}\PYG{o}{\PYGZgt{}}
+            \PYG{o}{\PYGZlt{}}\PYG{n}{masking\PYGZus{}type}\PYG{o}{\PYGZgt{}}\PYG{n}{Mask}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{masking\PYGZus{}type}\PYG{o}{\PYGZgt{}}
+            \PYG{o}{\PYGZlt{}}\PYG{n}{masking\PYGZus{}class}\PYG{o}{\PYGZgt{}}\PYG{n}{Mask\PYGZus{}date}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{masking\PYGZus{}class}\PYG{o}{\PYGZgt{}}
+        \PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{entity}\PYG{o}{\PYGZgt{}}
+    \PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{algorithms}\PYG{o}{\PYGZgt{}}
+    \PYG{o}{\PYGZlt{}}\PYG{n}{dataset}\PYG{o}{\PYGZgt{}}
+        \PYG{o}{\PYGZlt{}}\PYG{n}{dataset\PYGZus{}location}\PYG{o}{\PYGZgt{}}\PYG{n}{dataset}\PYG{o}{/}\PYG{n+nb}{input}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{dataset\PYGZus{}location}\PYG{o}{\PYGZgt{}}
+        \PYG{o}{\PYGZlt{}}\PYG{n}{data\PYGZus{}output}\PYG{o}{\PYGZgt{}}\PYG{n}{dataset}\PYG{o}{/}\PYG{n}{output}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{data\PYGZus{}output}\PYG{o}{\PYGZgt{}}
+    \PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{dataset}\PYG{o}{\PYGZgt{}}
+\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{project}\PYG{o}{\PYGZgt{}}
+\end{sphinxVerbatim}
+
+
+\section{Explanation}
+\label{\detokenize{index:explanation}}
+The whole configuration is wrapped in \textless{}project\textgreater{} tag. The user can name the project (using \textless{}project\_name\textgreater{}), and give some basic information about creator and contact details. For each entity, user would like to mask, he/she needs to create \textless{}entity\textgreater{} tag.
+
+Inside \textless{}entity\textgreater{} tag, user has to define entity name (using entity\_name tag), he can specify original name that his named entity recognizer outputs (using original\_name tag), specify NER algorithm for recognition (using \textless{}algorithm\textgreater{} tag) and define masking. Masking can be defined by specifying masking type (using masking\_type tag). Possible values for masking type are:
+\begin{itemize}
+\item {} 
+Nothing - does nothing, does not redact or mask entity, but leaves it in text.
+
+\item {} 
+Mask - masks entity with another string. The way of masking has to be defined with the masking\_class tag.
+
+\item {} 
+Redact - redacts the entity (setting either XXX or entity name - to be discussed in the future).
+
+\end{itemize}
+
+
 \chapter{Classes and functions}
 \label{\detokenize{index:module-mask_framework}}\label{\detokenize{index:classes-and-functions}}\index{mask\_framework (module)@\spxentry{mask\_framework}\spxextra{module}}
 \sphinxstyleemphasis{mask\_framework.py} \textendash{} Main MASK Framework module
