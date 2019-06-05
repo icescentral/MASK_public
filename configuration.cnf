@@ -15,7 +15,7 @@
             <original_name>DATE</original_name>
             <algorithm>NER_CRF</algorithm>
             <masking_type>Mask</masking_type>
-            <masking_class>Mask_date</masking_class>
+            <masking_class>Mask_date_simple</masking_class>
         </entity>
     </algorithms>
     <dataset>
