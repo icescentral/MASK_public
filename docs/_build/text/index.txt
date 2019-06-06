@@ -1,4 +1,4 @@
-Welcome to MASK Framework’s documentation!
+Welcome to MASK Framework's documentation!
 ******************************************
 
 
@@ -127,7 +127,7 @@ Example of configuration file:
                <original_name>DATE</original_name>
                <algorithm>NER_CRF</algorithm>
                <masking_type>Mask</masking_type>
-               <masking_class>Mask_date</masking_class>
+               <masking_class>Mask_date_simple</masking_class>
            </entity>
        </algorithms>
        <dataset>
@@ -165,7 +165,7 @@ values for masking type are:
 Classes and functions
 *********************
 
-*mask_framework.py* – Main MASK Framework module
+*mask_framework.py* -- Main MASK Framework module
 
 class mask_framework.Configuration(configuration='configuration.cnf')
 
@@ -198,27 +198,29 @@ class ner_plugins.NER_CRF.NER_CRF
       Returns a spans of tokens in text.
 
       Parameters:
-         * **text** – text to split into words
+         * **text** -- text to split into words
 
-         * **language** (*str*) – the model name in the Punkt corpus
+         * **language** (*str*) -- the model name in the Punkt
+           corpus
 
-         * **preserve_line** – An option to keep the preserve the
+         * **preserve_line** -- An option to keep the preserve the
            sentence and not sentence tokenize it.
 
    custom_word_tokenize(text, language='english', preserve_line=True)
 
-      Return a tokenized copy of *text*, using NLTK’s recommended word
+      Return a tokenized copy of *text*, using NLTK's recommended word
       tokenizer (currently an improved "TreebankWordTokenizer" along
       with "PunktSentenceTokenizer" for the specified language).
 
       Parameters:
-         * **text** – text to split into words
+         * **text** -- text to split into words
 
-         * **text** – str
+         * **text** -- str
 
-         * **language** (*str*) – the model name in the Punkt corpus
+         * **language** (*str*) -- the model name in the Punkt
+           corpus
 
-         * **preserve_line** – An option to keep the preserve the
+         * **preserve_line** -- An option to keep the preserve the
            sentence and not sentence tokenize it.
 
    doc2features(sent)
@@ -226,7 +228,7 @@ class ner_plugins.NER_CRF.NER_CRF
       Transforms a sentence to a sequence of features
 
       Parameters:
-         **sent** – a set of tokens that will be transformed to
+         **sent** -- a set of tokens that will be transformed to
          features
 
    perform_NER(text)
@@ -235,7 +237,7 @@ class ner_plugins.NER_CRF.NER_CRF
       using CRF. Returns a sequence of tuples (token,label).
 
       Parameters:
-         **text** – text over which should be performed named entity
+         **text** -- text over which should be performed named entity
          recognition
 
    tokenize_fa(documents)
@@ -243,17 +245,17 @@ class ner_plugins.NER_CRF.NER_CRF
       Tokenization function. Returns list of sequences
 
       Parameters:
-         **documents** – list of texts
+         **documents** -- list of texts
 
    word2features(sent, i)
 
       Transforms words into features that are fed into CRF model
 
       Parameters:
-         * **sent** – a list of tokens in a single sentence
+         * **sent** -- a list of tokens in a single sentence
 
-         * **i** (*int*) – position of a transformed word in a given
-           sentence (token sequence)
+         * **i** (*int*) -- position of a transformed word in a
+           given sentence (token sequence)
 
 class ner_plugins.NER_abstract.NER_abstract
 
@@ -263,6 +265,39 @@ class ner_plugins.NER_abstract.NER_abstract
 
       Implementation of the method that should perform named entity
       recognition
+
+class masking_plugins.Mask_abstract.Mask_abstract
+
+   Abstract class that other masking plugins should implement
+
+   mask(text_to_reduct, context=[], document=[], replacement_list={})
+
+      Implementation of the method that should perform masking.
+      Returns changed token
+
+      Parameters:
+         * **text_to_reduct** -- a token that should be changed
+
+         * **context** -- a context around the token that should be
+           reducted. It is a list of tokens. Can be sentence or more.
+           It is optional variable and does not need to be used
+
+         * **document** -- a whole document as a list of tokens. Can
+           be used as context. Optional variable and does not need to
+           be used
+
+         * **replacement_list** -- list of strings with their
+           replacements. Can be used to search for tokens or part of
+           it, in order to replace with the value of dictionary.
+
+class masking_plugins.Mask_date_simple.Mask_date_simple
+
+   Abstract class that other masking plugins should implement
+
+   mask(text)
+
+      Implementation of the method that should perform masking. Takes
+      a token as input and returns a set string "DATE"
 
 
 Indices and tables
