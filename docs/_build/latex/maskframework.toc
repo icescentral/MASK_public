@@ -5,6 +5,7 @@
 \contentsline {section}{\numberline {2.2}Architectural consideration for extendable framework and configuration}{3}{section.2.2}
 \contentsline {section}{\numberline {2.3}Configuration file example and explanation}{4}{section.2.3}
 \contentsline {section}{\numberline {2.4}Explanation}{4}{section.2.4}
-\contentsline {chapter}{\numberline {3}Classes and functions}{5}{chapter.3}
-\contentsline {chapter}{\numberline {4}Indices and tables}{7}{chapter.4}
-\contentsline {chapter}{Python Module Index}{9}{section*.20}
+\contentsline {chapter}{\numberline {3}Dependancies}{5}{chapter.3}
+\contentsline {chapter}{\numberline {4}Classes and functions}{7}{chapter.4}
+\contentsline {chapter}{\numberline {5}Indices and tables}{9}{chapter.5}
+\contentsline {chapter}{Python Module Index}{11}{section*.20}

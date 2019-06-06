@@ -79,6 +79,17 @@ Inside <entity> tag, user has to define entity name (using entity_name tag), he 
 * Mask - masks entity with another string. The way of masking has to be defined with the masking_class tag.
 * Redact - redacts the entity (setting either XXX or entity name - to be discussed in the future).
 
+Dependancies
+============
+Dependances are defined in requirements.txt file and can be installed by running
+
+.. code-block:: shell
+
+    pip3 install -r requirements.txt
+
+List of all requirements:
+
+.. literalinclude:: ../requirements.txt
 
 Classes and functions
 =====================
