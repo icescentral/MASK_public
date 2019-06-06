@@ -165,8 +165,8 @@ values for masking type are:
 Dependancies
 ************
 
-Dependances are defined in requirements.txt file and can be installed
-by running
+The system is implemented in Python, using Python 3.5.2. Dependances
+are defined in requirements.txt file and can be installed by running:
 
    pip3 install -r requirements.txt
 

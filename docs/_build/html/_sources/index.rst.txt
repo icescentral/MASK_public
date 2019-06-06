@@ -81,7 +81,7 @@ Inside <entity> tag, user has to define entity name (using entity_name tag), he 
 
 Dependancies
 ============
-Dependances are defined in requirements.txt file and can be installed by running
+The system is implemented in Python, using Python 3.5.2. Dependances are defined in requirements.txt file and can be installed by running:
 
 .. code-block:: shell
 
