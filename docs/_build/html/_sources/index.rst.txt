@@ -7,7 +7,7 @@ Welcome to MASK Framework's documentation!
 ==========================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: Contents:
 
 Intorduction
@@ -86,11 +86,17 @@ Classes and functions
     :members:
 .. automodule:: ner_plugins
     :members:
+.. automodule:: masking_plugins
+    :members:
 .. autoclass:: mask_framework.Configuration
     :members:
 .. autoclass:: ner_plugins.NER_CRF.NER_CRF
     :members:
 .. autoclass:: ner_plugins.NER_abstract.NER_abstract
+    :members:
+.. autoclass:: masking_plugins.Mask_abstract.Mask_abstract
+    :members:
+.. autoclass:: masking_plugins.Mask_date_simple.Mask_date_simple
     :members:
 
 Indices and tables

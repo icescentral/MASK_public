@@ -72,7 +72,7 @@
 
 
 \title{MASK Framework}
-\date{Jun 04, 2019}
+\date{Jun 06, 2019}
 \release{}
 \author{Nikola Milosevic}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -217,7 +217,7 @@ Example of configuration file:
             \PYG{o}{\PYGZlt{}}\PYG{n}{original\PYGZus{}name}\PYG{o}{\PYGZgt{}}\PYG{n}{DATE}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{original\PYGZus{}name}\PYG{o}{\PYGZgt{}}
             \PYG{o}{\PYGZlt{}}\PYG{n}{algorithm}\PYG{o}{\PYGZgt{}}\PYG{n}{NER\PYGZus{}CRF}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{algorithm}\PYG{o}{\PYGZgt{}}
             \PYG{o}{\PYGZlt{}}\PYG{n}{masking\PYGZus{}type}\PYG{o}{\PYGZgt{}}\PYG{n}{Mask}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{masking\PYGZus{}type}\PYG{o}{\PYGZgt{}}
-            \PYG{o}{\PYGZlt{}}\PYG{n}{masking\PYGZus{}class}\PYG{o}{\PYGZgt{}}\PYG{n}{Mask\PYGZus{}date}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{masking\PYGZus{}class}\PYG{o}{\PYGZgt{}}
+            \PYG{o}{\PYGZlt{}}\PYG{n}{masking\PYGZus{}class}\PYG{o}{\PYGZgt{}}\PYG{n}{Mask\PYGZus{}date\PYGZus{}simple}\PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{masking\PYGZus{}class}\PYG{o}{\PYGZgt{}}
         \PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{entity}\PYG{o}{\PYGZgt{}}
     \PYG{o}{\PYGZlt{}}\PYG{o}{/}\PYG{n}{algorithms}\PYG{o}{\PYGZgt{}}
     \PYG{o}{\PYGZlt{}}\PYG{n}{dataset}\PYG{o}{\PYGZgt{}}
@@ -270,7 +270,8 @@ Main MASK Framework function
 
 \phantomsection\label{\detokenize{index:module-ner_plugins}}\index{ner\_plugins (module)@\spxentry{ner\_plugins}\spxextra{module}}
 \sphinxstyleemphasis{ner\_plugins} - a set of modules that can perform named entity recognition. Basically, plugins for different kinds of named entity recognition
-\index{Configuration (class in mask\_framework)@\spxentry{Configuration}\spxextra{class in mask\_framework}}
+
+\phantomsection\label{\detokenize{index:module-masking_plugins}}\index{masking\_plugins (module)@\spxentry{masking\_plugins}\spxextra{module}}\index{Configuration (class in mask\_framework)@\spxentry{Configuration}\spxextra{class in mask\_framework}}
 
 \begin{fulllineitems}
 \pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{mask\_framework.}}\sphinxbfcode{\sphinxupquote{Configuration}}}{\emph{configuration='configuration.cnf'}}{}
@@ -414,6 +415,55 @@ Implementation of the method that should perform named entity recognition
 
 \end{fulllineitems}
 
+\index{Mask\_abstract (class in masking\_plugins.Mask\_abstract)@\spxentry{Mask\_abstract}\spxextra{class in masking\_plugins.Mask\_abstract}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:masking_plugins.Mask_abstract.Mask_abstract}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{masking\_plugins.Mask\_abstract.}}\sphinxbfcode{\sphinxupquote{Mask\_abstract}}}
+Abstract class that other masking plugins should implement
+\index{mask() (masking\_plugins.Mask\_abstract.Mask\_abstract method)@\spxentry{mask()}\spxextra{masking\_plugins.Mask\_abstract.Mask\_abstract method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:masking_plugins.Mask_abstract.Mask_abstract.mask}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{mask}}}{\emph{text\_to\_reduct}, \emph{context={[}{]}}, \emph{document={[}{]}}, \emph{replacement\_list=\{\}}}{}
+Implementation of the method that should perform masking. Returns changed token
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{text\_to\_reduct}} \textendash{} a token that should be changed
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{context}} \textendash{} a context around the token that should be reducted. It is a list of tokens. Can be sentence or more. It is optional variable and does not need to be used
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{document}} \textendash{} a whole document as a list of tokens. Can be used as context. Optional variable and does not need to be used
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{replacement\_list}} \textendash{} list of strings with their replacements. Can be used to search for tokens or part of it, in order to replace with the value of dictionary.
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{Mask\_date\_simple (class in masking\_plugins.Mask\_date\_simple)@\spxentry{Mask\_date\_simple}\spxextra{class in masking\_plugins.Mask\_date\_simple}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:masking_plugins.Mask_date_simple.Mask_date_simple}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{masking\_plugins.Mask\_date\_simple.}}\sphinxbfcode{\sphinxupquote{Mask\_date\_simple}}}
+Abstract class that other masking plugins should implement
+\index{mask() (masking\_plugins.Mask\_date\_simple.Mask\_date\_simple method)@\spxentry{mask()}\spxextra{masking\_plugins.Mask\_date\_simple.Mask\_date\_simple method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:masking_plugins.Mask_date_simple.Mask_date_simple.mask}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{mask}}}{\emph{text}}{}
+Implementation of the method that should perform masking. Takes a token as input and returns a set string “DATE”
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
 
 
 \chapter{Indices and tables}
@@ -435,6 +485,7 @@ Implementation of the method that should perform named entity recognition
 \let\bigletter\sphinxstyleindexlettergroup
 \bigletter{m}
 \item\relax\sphinxstyleindexentry{mask\_framework}\sphinxstyleindexpageref{index:\detokenize{module-mask_framework}}
+\item\relax\sphinxstyleindexentry{masking\_plugins}\sphinxstyleindexpageref{index:\detokenize{module-masking_plugins}}
 \indexspace
 \bigletter{n}
 \item\relax\sphinxstyleindexentry{ner\_plugins}\sphinxstyleindexpageref{index:\detokenize{module-ner_plugins}}

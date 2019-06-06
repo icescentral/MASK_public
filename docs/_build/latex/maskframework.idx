@@ -2,6 +2,7 @@
 \indexentry{Configuration (class in mask\_framework)@\spxentry{Configuration}\spxextra{class in mask\_framework}|hyperpage}{5}
 \indexentry{main() (in module mask\_framework)@\spxentry{main()}\spxextra{in module mask\_framework}|hyperpage}{5}
 \indexentry{ner\_plugins (module)@\spxentry{ner\_plugins}\spxextra{module}|hyperpage}{5}
+\indexentry{masking\_plugins (module)@\spxentry{masking\_plugins}\spxextra{module}|hyperpage}{5}
 \indexentry{Configuration (class in mask\_framework)@\spxentry{Configuration}\spxextra{class in mask\_framework}|hyperpage}{5}
 \indexentry{NER\_CRF (class in ner\_plugins.NER\_CRF)@\spxentry{NER\_CRF}\spxextra{class in ner\_plugins.NER\_CRF}|hyperpage}{5}
 \indexentry{custom\_span\_tokenize() (ner\_plugins.NER\_CRF.NER\_CRF method)@\spxentry{custom\_span\_tokenize()}\spxextra{ner\_plugins.NER\_CRF.NER\_CRF method}|hyperpage}{5}
@@ -12,3 +13,7 @@
 \indexentry{word2features() (ner\_plugins.NER\_CRF.NER\_CRF method)@\spxentry{word2features()}\spxextra{ner\_plugins.NER\_CRF.NER\_CRF method}|hyperpage}{6}
 \indexentry{NER\_abstract (class in ner\_plugins.NER\_abstract)@\spxentry{NER\_abstract}\spxextra{class in ner\_plugins.NER\_abstract}|hyperpage}{6}
 \indexentry{perform\_NER() (ner\_plugins.NER\_abstract.NER\_abstract method)@\spxentry{perform\_NER()}\spxextra{ner\_plugins.NER\_abstract.NER\_abstract method}|hyperpage}{6}
+\indexentry{Mask\_abstract (class in masking\_plugins.Mask\_abstract)@\spxentry{Mask\_abstract}\spxextra{class in masking\_plugins.Mask\_abstract}|hyperpage}{6}
+\indexentry{mask() (masking\_plugins.Mask\_abstract.Mask\_abstract method)@\spxentry{mask()}\spxextra{masking\_plugins.Mask\_abstract.Mask\_abstract method}|hyperpage}{6}
+\indexentry{Mask\_date\_simple (class in masking\_plugins.Mask\_date\_simple)@\spxentry{Mask\_date\_simple}\spxextra{class in masking\_plugins.Mask\_date\_simple}|hyperpage}{6}
+\indexentry{mask() (masking\_plugins.Mask\_date\_simple.Mask\_date\_simple method)@\spxentry{mask()}\spxextra{masking\_plugins.Mask\_date\_simple.Mask\_date\_simple method}|hyperpage}{6}

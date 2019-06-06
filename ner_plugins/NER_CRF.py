@@ -296,12 +296,12 @@ class NER_CRF(NER_abstract):
 
     def perform_NER(self,text):
         """
-                          Implemented function that performs named entity recognition using CRF. Returns a sequence of tuples (token,label).
+          Implemented function that performs named entity recognition using CRF. Returns a sequence of tuples (token,label).
 
-                          :param text: text over which should be performed named entity recognition
-                          :type language: str
+          :param text: text over which should be performed named entity recognition
+          :type language: str
 
-                          """
+          """
         X_test = []
         documents = [text]
         sequences = self.tokenize_fa(documents)
