@@ -1,12 +1,9 @@
 """*mask_framework.py* -- Main MASK Framework module
                """
-
 import xml.etree.ElementTree as ET
 from os import listdir
 from os.path import isfile, join
 import importlib
-import nltk
-import re
 from nltk.tokenize.treebank import TreebankWordTokenizer
 import os
 class Configuration():
