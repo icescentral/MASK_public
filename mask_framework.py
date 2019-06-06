@@ -85,20 +85,21 @@ def main():
                         else:
                             if len(tokens)<i+j+1:
                                 tokens.append(result[i][j][0])
-            # elif masking_type == "Mask":
-            #     masking_class = entity['masking_class']
-            #     inpor2 = importlib.import_module("masking_plugins." + masking_class)
-            #     class_masking = getattr(inpor2, masking_class)
-            #     masking_instance = class_masking()
-            #     for j in range(0, len(result[i])):
-            #         if result[i][j][1] == entity_name:
-            #             if len(tokens) < i + j + 1:
-            #                 tokens.append(masking_instance.mask(result[i][j][0]))
-            #             else:
-            #                 tokens[i + j] = masking_instance.mask(result[i][j][0])
-            #         else:
-            #             if len(tokens) < i + j + 1:
-            #                 tokens.append(result[i][j][0])
+            elif masking_type == "Mask":
+                masking_class = entity['masking_class']
+                inpor2 = importlib.import_module("masking_plugins." + masking_class)
+                class_masking = getattr(inpor2, masking_class)
+                masking_instance = class_masking()
+                for i in range(0, len(result)):
+                    for j in range(0, len(result[i])):
+                        if result[i][j][1] == entity_name:
+                            if len(tokens) < i + j + 1:
+                                tokens.append(masking_instance.mask(result[i][j][0]))
+                            else:
+                                tokens[i + j] = masking_instance.mask(result[i][j][0])
+                        else:
+                            if len(tokens) < i + j + 1:
+                                tokens.append(result[i][j][0])
             else:
                 for i in range(0, len(result)):
                     for j in range(0, len(result[i])):
