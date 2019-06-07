@@ -6,6 +6,7 @@
 \contentsline {section}{\numberline {2.3}Configuration file example and explanation}{4}{section.2.3}
 \contentsline {section}{\numberline {2.4}Explanation}{4}{section.2.4}
 \contentsline {chapter}{\numberline {3}Dependancies}{5}{chapter.3}
-\contentsline {chapter}{\numberline {4}Classes and functions}{7}{chapter.4}
-\contentsline {chapter}{\numberline {5}Indices and tables}{11}{chapter.5}
-\contentsline {chapter}{Python Module Index}{13}{section*.22}
+\contentsline {chapter}{\numberline {4}Example}{7}{chapter.4}
+\contentsline {chapter}{\numberline {5}Classes and functions}{9}{chapter.5}
+\contentsline {chapter}{\numberline {6}Indices and tables}{13}{chapter.6}
+\contentsline {chapter}{Python Module Index}{15}{section*.22}

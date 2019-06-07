@@ -91,6 +91,16 @@ List of all requirements:
 
 .. literalinclude:: ../requirements.txt
 
+Example
+=======
+Input file (with configuration presented in the example configuration):
+
+.. literalinclude:: ../dataset/input/example1
+
+Example output:
+
+.. literalinclude:: ../dataset/output/example1
+
 Classes and functions
 =====================
 .. automodule:: mask_framework
