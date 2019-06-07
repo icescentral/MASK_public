@@ -323,5 +323,4 @@ class NER_CRF(NER_abstract):
             for j in range(0,len(y_pred[i])):
                 sentence.append((word_sequences[i][j],y_pred[i][j]))
             final_sequences.append(sentence)
-
         return final_sequences

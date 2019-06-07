@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.13)  6 JUN 2019 10:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.13)  7 JUN 2019 17:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1175,35 +1175,36 @@ Chapter 3.
 Chapter 4.
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
 (Font)              Font shape `T1/pcr/b/n' tried instead on input line 271.
+[7]
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <10> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 317.
-[7] [8]
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 362.
+ [8] [9] [10
+
+]
 Chapter 5.
-[9
+[11] [12
 
-] [10
-
-] [11
+] [13
 
 
 ]
 No file maskframework.ind.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 512.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 512.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 557.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 557.
 (./maskframework.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 512.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 512.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 557.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 557.
 Package rerunfilecheck Info: File `maskframework.out' has not changed.
-(rerunfilecheck)             Checksum: BDD205FA8FA4699A19E3421441BABA35;1758.
+(rerunfilecheck)             Checksum: 77B250D92D1D29ED0EAC1ECD89CBB6B1;1758.
  ) 
 Here is how much of TeX's memory you used:
- 13884 strings out of 494910
- 191633 string characters out of 6179835
- 329165 words of memory out of 5000000
- 16826 multiletter control sequences out of 15000+600000
+ 13890 strings out of 494910
+ 191756 string characters out of 6179835
+ 329258 words of memory out of 5000000
+ 16828 multiletter control sequences out of 15000+600000
  46379 words of font info for 70 fonts, out of 8000000 for 9000
  37 hyphenation exceptions out of 8191
- 37i,11n,45p,783b,528s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,11n,45p,783b,653s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
@@ -1212,10 +1213,10 @@ uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><
 /usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texl
 ive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/urw/times/utmri8a.pfb>
-Output written on maskframework.pdf (15 pages, 110546 bytes).
+Output written on maskframework.pdf (17 pages, 112976 bytes).
 PDF statistics:
- 192 PDF objects out of 1000 (max. 8388607)
- 160 compressed objects within 2 object streams
- 43 named destinations out of 1000 (max. 500000)
+ 202 PDF objects out of 1000 (max. 8388607)
+ 168 compressed objects within 2 object streams
+ 47 named destinations out of 1000 (max. 500000)
  101 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -155,9 +155,39 @@ where mask_framework is</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="mask_framework.consolidate_NER_results">
+<code class="sig-prename descclassname">mask_framework.</code><code class="sig-name descname">consolidate_NER_results</code><span class="sig-paren">(</span><em class="sig-param">final_sequences</em>, <em class="sig-param">text</em><span class="sig-paren">)</span><a class="headerlink" href="#mask_framework.consolidate_NER_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that from a list of sequences returned from the NER function is updated with spans
+:param final_sequences: Sequences returned from NER function. Sequence is a array of arrays of tokens in format (token,label).
+:param text: full text article
+:return: a list of tuples that includes spans in the following format: (token,label,span_begin,span_end)</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="mask_framework.main">
 <code class="sig-prename descclassname">mask_framework.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mask_framework.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main MASK Framework function</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="mask_framework.recalculate_tokens">
+<code class="sig-prename descclassname">mask_framework.</code><code class="sig-name descname">recalculate_tokens</code><span class="sig-paren">(</span><em class="sig-param">token_array</em>, <em class="sig-param">index</em>, <em class="sig-param">token_size</em>, <em class="sig-param">replacement_size</em>, <em class="sig-param">new_text</em>, <em class="sig-param">new_token</em><span class="sig-paren">)</span><a class="headerlink" href="#mask_framework.recalculate_tokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that recalculates token spans when the token is replaced</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token_array</strong> – Array of tokens with all information, including label and spans</p></li>
+<li><p><strong>index</strong> – Index of the token in the array that is being replaced</p></li>
+<li><p><strong>token_size</strong> – size of the token that is being replaced</p></li>
+<li><p><strong>replacement_size</strong> – size of the new token that is replacing token</p></li>
+<li><p><strong>new_text</strong> – whole text (have been used for debugging purposes, not obsolete and can be empty string)</p></li>
+<li><p><strong>new_token</strong> – New string that is replacing the token.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>new, modified list of tokens with information about labels and spans. Basically list of tuples (token,label,start_span,end_span)</p>
+</dd>
+</dl>
 </dd></dl>
 
 <span class="target" id="module-ner_plugins"></span><p><em>ner_plugins</em> - a set of modules that can perform named entity recognition. Basically, plugins for different kinds of named entity recognition</p>

@@ -72,7 +72,7 @@
 
 
 \title{MASK Framework}
-\date{Jun 06, 2019}
+\date{Jun 07, 2019}
 \release{}
 \author{Nikola Milosevic}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -276,11 +276,56 @@ where mask\_framework is
 
 \end{fulllineitems}
 
+\index{consolidate\_NER\_results() (in module mask\_framework)@\spxentry{consolidate\_NER\_results()}\spxextra{in module mask\_framework}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:mask_framework.consolidate_NER_results}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{mask\_framework.}}\sphinxbfcode{\sphinxupquote{consolidate\_NER\_results}}}{\emph{final\_sequences}, \emph{text}}{}
+Function that from a list of sequences returned from the NER function is updated with spans
+:param final\_sequences: Sequences returned from NER function. Sequence is a array of arrays of tokens in format (token,label).
+:param text: full text article
+:return: a list of tuples that includes spans in the following format: (token,label,span\_begin,span\_end)
+
+\end{fulllineitems}
+
 \index{main() (in module mask\_framework)@\spxentry{main()}\spxextra{in module mask\_framework}}
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:mask_framework.main}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{mask\_framework.}}\sphinxbfcode{\sphinxupquote{main}}}{}{}
 Main MASK Framework function
+
+\end{fulllineitems}
+
+\index{recalculate\_tokens() (in module mask\_framework)@\spxentry{recalculate\_tokens()}\spxextra{in module mask\_framework}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:mask_framework.recalculate_tokens}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{mask\_framework.}}\sphinxbfcode{\sphinxupquote{recalculate\_tokens}}}{\emph{token\_array}, \emph{index}, \emph{token\_size}, \emph{replacement\_size}, \emph{new\_text}, \emph{new\_token}}{}
+Function that recalculates token spans when the token is replaced
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{token\_array}} \textendash{} Array of tokens with all information, including label and spans
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{index}} \textendash{} Index of the token in the array that is being replaced
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{token\_size}} \textendash{} size of the token that is being replaced
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{replacement\_size}} \textendash{} size of the new token that is replacing token
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{new\_text}} \textendash{} whole text (have been used for debugging purposes, not obsolete and can be empty string)
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{new\_token}} \textendash{} New string that is replacing the token.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+new, modified list of tokens with information about labels and spans. Basically list of tuples (token,label,start\_span,end\_span)
+
+\end{description}\end{quote}
 
 \end{fulllineitems}
 
