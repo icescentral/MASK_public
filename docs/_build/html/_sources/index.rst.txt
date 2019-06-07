@@ -97,7 +97,7 @@ Input file (with configuration presented in the example configuration):
 
 .. literalinclude:: ../dataset/input/example1
 
-Example output:
+Example output (dates are substituted with DATE and names with XXX):
 
 .. literalinclude:: ../dataset/output/example1
 

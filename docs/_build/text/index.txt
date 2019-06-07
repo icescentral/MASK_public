@@ -201,7 +201,7 @@ configuration):
    Exercise - Started walking at work again daily 1 mile. also watching diet now.
 
 
-Example output:
+Example output (dates are substituted with DATE and names with XXX):
 
    Record Date: DATE
 
