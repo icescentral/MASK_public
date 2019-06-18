@@ -107,10 +107,9 @@ def main():
     cf = Configuration()
     print(cf.entities_list)
     data = [f for f in listdir(cf.dataset_location) if isfile(join(cf.dataset_location, f))]
+    #TODO: This bit bellow may need some optimization!
     for file in data:
         text = open(cf.dataset_location+"/"+file,'r').read()
-        output_text = ""
-        tokens = []
         new_text = text
         for entity in cf.entities_list:
             algorithm = "ner_plugins."+entity['algorithm']
