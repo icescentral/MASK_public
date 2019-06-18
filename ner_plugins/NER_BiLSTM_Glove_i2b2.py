@@ -20,7 +20,6 @@ class NER_BiLSTM_Glove_i2b2(object):
         self.model.load_weights("Models/BiLSTM_Glove_de_identification_model.h5")
         print("Loaded model from disk")
         self.model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-        self.model.summary()
         self.word_index = pickle.load(open("Models/word_index.pkl","rb"))
 
     def build_tensor(self,sequences,numrecs,word2index,maxlen,makecategorical=False,num_classes=0,is_label=False):

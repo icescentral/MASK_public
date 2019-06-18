@@ -31,7 +31,7 @@ def tokenize_fa(documents):
                 token_tag = "O"
                 # token_tag_type = "O"
             sequence.append((token_txt, token_tag))
-            if token_txt == "." or token_txt == "\n" or token_txt == "?" or token_txt == ";" or token_txt == "!":
+            if token_txt == "." or token_txt == "?" or token_txt == "!":
                 sequences.append(sequence)
                 sequence = []
         sequences.append(sequence)
