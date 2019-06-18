@@ -7,7 +7,7 @@
         <entity>
             <entity_name>NAME</entity_name>
             <original_name>NAME</original_name>
-            <algorithm>NER_CRF</algorithm>
+            <algorithm>NER_BiLSTM_Glove_i2b2</algorithm>
             <masking_type>Redact</masking_type>
         </entity>
         <entity>

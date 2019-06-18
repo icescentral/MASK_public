@@ -58,16 +58,17 @@ def consolidate_NER_results(final_sequences,text):
             tokens.append(b[0])
     spans = align_tokens(tokens, text)
     fin = []
+    multiplier = 0
     for i in range (0,len(final_sequences)):
-        multiplier = 0
+        #multiplier = 0
         if i>0:
-            multiplier = len(final_sequences[i-1])
+            multiplier = multiplier + len(final_sequences[i-1])
             #subtractor = 1
         for j in range (0,len(final_sequences[i])):
             token = final_sequences[i][j][0]
             label = final_sequences[i][j][1]
-            span_min =  spans[i*multiplier+j][0]
-            span_max =  spans[i*multiplier+j][1]
+            span_min =  spans[multiplier+j][0]
+            span_max =  spans[multiplier+j][1]
             fin.append((token,label,span_min,span_max))
     return fin
 

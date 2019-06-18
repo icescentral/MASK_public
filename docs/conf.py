@@ -11,17 +11,18 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import sys
+sys.path.insert(0, os.path.abspath('.'))
 import sys
 sys.path.insert(0,"/home/mbaxknm4/Mask/mask/")
+sys.path.insert(1,"/usr/local/lib/python3.6/dist-packages")
 # -- Project information -----------------------------------------------------
 
 project = 'MASK Framework'
 copyright = '2019, Nikola Milosevic'
 author = 'Nikola Milosevic'
 
-
+html_theme = "nature"
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -44,7 +45,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+#html_theme = 'alabaster'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
