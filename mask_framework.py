@@ -107,43 +107,50 @@ def main():
     cf = Configuration()
     print(cf.entities_list)
     data = [f for f in listdir(cf.dataset_location) if isfile(join(cf.dataset_location, f))]
-    #TODO: This bit bellow may need some optimization!
+    algorithms = []
+    # Load algorithms in data structure
+    for entity in cf.entities_list:
+        algorithm = "ner_plugins." + entity['algorithm']
+        masking_type = entity['masking_type']
+        entity_name = entity['entity_name']
+        if masking_type=="Redact":
+            masking_class = ""
+        else:
+            masking_class = entity['masking_class']
+
+        # Import the right module
+        inpor = importlib.import_module(algorithm)
+
+        # find a class and instantiate
+        class_ = getattr(inpor, entity['algorithm'])
+
+        instance = class_()
+        algorithms.append({"algorithm":algorithm,"masking_type":masking_type,"entity_name":entity_name,"instance":instance,"masking_class":masking_class})
+
     for file in data:
         text = open(cf.dataset_location+"/"+file,'r').read()
         new_text = text
-        for entity in cf.entities_list:
-            algorithm = "ner_plugins."+entity['algorithm']
-            masking_type = entity['masking_type']
-            entity_name = entity['entity_name']
-
-            # Import the right module
-            inpor = importlib.import_module(algorithm)
-
-            # find a class and instantiate
-            class_ = getattr(inpor, entity['algorithm'])
-
-            instance = class_()
-
+        for alg in algorithms:
             # perform named entity recoginition
-            result = instance.perform_NER(new_text)
+            result = alg["instance"].perform_NER(new_text)
             result = consolidate_NER_results(result,new_text)
             #Perform masking/redacting
 
-            if masking_type == "Redact":
+            if alg["masking_type"] == "Redact":
                 for i in range(0,len(result)):
-                    if result[i][1]==entity_name:
+                    if result[i][1]==alg["entity_name"]:
                         token_size = result[i][3]-result[i][2]
                         new_token = "XXX"
                         replacement_size = len(new_token)
                         new_text = new_text[:result[i][2]]+new_token+new_text[result[i][3]:]
                         result = recalculate_tokens(result,i,token_size,replacement_size,new_text,new_token)
-            elif masking_type == "Mask":
-                masking_class = entity['masking_class']
+            elif alg["masking_type"] == "Mask":
+                masking_class = alg['masking_class']
                 inpor2 = importlib.import_module("masking_plugins." + masking_class)
                 class_masking = getattr(inpor2, masking_class)
                 masking_instance = class_masking()
                 for i in range(0,len(result)):
-                    if result[i][1]==entity_name:
+                    if result[i][1]==alg["entity_name"]:
                         token_size = result[i][3]-result[i][2]
                         new_token = masking_instance.mask(result[i][0])
                         replacement_size = len(new_token)
