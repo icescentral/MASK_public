@@ -30,6 +30,52 @@ class NER_BiLSTM_Glove_i2b2(object):
         self.EMBEDDING_DIM = 300
         self.MAX_NB_WORDS = 2200000
 
+    def build_tensor2(self,sequences,numrecs,word2index,maxlen,makecategorical=False,num_classes=0,is_label=False):
+        """
+        Function to create tensors out of sequences
+
+        :param sequences: Sequences of words
+        :param numrecs: size of the tensor
+        :param word2index: mapping between words and its numerical representation (index). Loaded from file
+        :param maxlen: Maximal lenght of the sequence
+        :param makecategorical: Not used
+        :param num_classes: Not used
+        :param is_label: Not used, leave default for action performing
+        :return:
+        """
+        data = np.empty((numrecs,), dtype=list)
+        label_index = {'O': 0}
+        label_set = ["DATE", "LOCATION", "NAME", "ID", "AGE", "CONTACT", "PROFESSION", "PHI"]
+        for lbl in label_set:
+            label_index[lbl] = len(label_index)
+
+        lb = LabelBinarizer()
+        lb.fit(list(label_index.values()))
+        i = 0
+        plabels = []
+        for sent in tqdm(sequences, desc='Building tensor'):
+            wids = []
+            pl = []
+            for word, label in sent:
+                if is_label == False:
+                    if word in word2index:
+                        wids.append(word2index[word])
+                    else:
+                        wids.append(word2index['the'])
+                else:
+                    pl.append(label_index[label])
+            plabels.append(pl)
+            if not is_label:
+                data[i] = wids
+            i += 1
+        if is_label:
+            plabels = sequence.pad_sequences(plabels, maxlen=maxlen)
+            print(plabels.shape)
+            pdata = np.array([lb.transform(l) for l in plabels])
+        else:
+            pdata = sequence.pad_sequences(data, maxlen=maxlen)
+        return pdata
+
     def build_tensor(self,sequences,numrecs,word2index,maxlen,makecategorical=False,num_classes=0,is_label=False):
         """
         Function to create tensors out of sequences
@@ -188,7 +234,7 @@ class NER_BiLSTM_Glove_i2b2(object):
             for t in ts:
                 text.append(t[0])
         self.createModel(text, self.GLOVE_DIR)
-        X = self.build_tensor(token_sequences, len(token_sequences), self.word_index, 70)
-        Y = self.build_tensor(token_sequences, len(token_sequences), self.word_index, 70, True, 9,
+        X = self.build_tensor2(token_sequences, len(token_sequences), self.word_index, 70)
+        Y = self.build_tensor2(token_sequences, len(token_sequences), self.word_index, 70, True, 9,
                                  True)
         return X,Y
