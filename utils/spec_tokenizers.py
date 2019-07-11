@@ -4,6 +4,41 @@ from nltk.tokenize.treebank import TreebankWordTokenizer
 import re
 
 _treebank_word_tokenizer = TreebankWordTokenizer()
+
+
+def tokenize_to_seq(documents):
+    sequences = []
+    sequence = []
+    for doc in documents:
+        if len(sequence)>0:
+            sequences.append(sequence)
+        sequence = []
+        text = doc["text"]
+        file = doc["id"]
+        text = text.replace("\"", "'")
+        text = text.replace("`", "'")
+        text = text.replace("``", "")
+        text = text.replace("''", "")
+        tokens = custom_span_tokenize(text)
+        for token in tokens:
+            token_txt = text[token[0]:token[1]]
+            found = False
+            for tag in doc["tags"]:
+                if int(tag["start"])<=token[0] and int(tag["end"])>=token[1]:
+                    token_tag = tag["tag"]
+                    #token_tag_type = tag["type"]
+                    found = True
+            if found==False:
+                token_tag = "O"
+                #token_tag_type = "O"
+            sequence.append((token_txt,token_tag))
+            if token_txt == ".":
+                sequences.append(sequence)
+                sequence = []
+        sequences.append(sequence)
+    return sequences
+
+
 def tokenize_fa(documents):
     """
               Tokenization function. Returns list of sequences
