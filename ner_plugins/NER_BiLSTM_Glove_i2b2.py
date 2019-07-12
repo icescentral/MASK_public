@@ -272,3 +272,12 @@ class NER_BiLSTM_Glove_i2b2(object):
                 Y_test_F.append(max_k)
 
         print(metrics.classification_report(Y_test_F, Y_pred_F, labels))
+
+    def save(self,model_path):
+        # serialize model to JSON
+        model_json = self.model.to_json()
+        with open("Models\\"+model_path + ".json", "w") as json_file:
+            json_file.write(model_json)
+        # serialize weights to HDF5
+        self.model.model.save_weights("Models\\"+model_path + ".h5")
+        print("Saved model to disk")
