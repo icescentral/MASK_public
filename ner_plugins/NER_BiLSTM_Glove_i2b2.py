@@ -238,3 +238,37 @@ class NER_BiLSTM_Glove_i2b2(object):
         Y = self.build_tensor2(token_sequences, len(token_sequences), self.word_index, 70, True, 9,
                                  True)
         return X,Y
+
+    def learn(self,X,Y):
+        self.model.fit(X, Y, epochs=1, validation_split=0.1, batch_size=64)
+
+    def evaluate(self,X,Y):
+        Y_pred = self.model.predict(X)
+        from sklearn import metrics
+        labels = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        # labels = ["DATE", "LOCATION", "NAME", "ID", "AGE", "CONTACT", "PROFESSION", "PHI"]
+
+        Y_pred_F = []
+
+        for i in range(0, len(Y_pred)):
+            for j in range(0, len(Y_pred[i])):
+                max_k = 0
+                max_k_val = 0
+                for k in range(0, len(Y_pred[i][j])):
+                    if Y_pred[i][j][k] > max_k_val:
+                        max_k_val = Y_pred[i][j][k]
+                        max_k = k
+                Y_pred_F.append(max_k)
+
+        Y_test_F = []
+        for i in range(0, len(Y)):
+            for j in range(0, len(Y[i])):
+                max_k = 0
+                max_k_val = 0
+                for k in range(0, len(Y[i][j])):
+                    if Y[i][j][k] > max_k_val:
+                        max_k_val = Y[i][j][k]
+                        max_k = k
+                Y_test_F.append(max_k)
+
+        print(metrics.classification_report(Y_test_F, Y_pred_F, labels))

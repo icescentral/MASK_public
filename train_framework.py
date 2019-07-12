@@ -1,7 +1,9 @@
 import argparse
 import importlib
 
-import utils.readers
+from sklearn.model_selection import train_test_split
+
+from utils.readers import read_i2b2_data
 import utils.spec_tokenizers
 
 if __name__ == "__main__":
@@ -14,7 +16,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     path = args.source_location
     if args.source_type == "i2b2":
-        documents = utils.readers.read_i2b2_data(path)
+        documents = read_i2b2_data(path)
     tokens_labels = utils.spec_tokenizers.tokenize_to_seq(documents)
     package = "ner_plugins."+ args.algorithm
     algorithm = args.algorithm
@@ -23,5 +25,8 @@ if __name__ == "__main__":
     class_ = getattr(inpor, algorithm)
     instance = class_()
     X,Y = instance.transform_sequences(tokens_labels)
+    X_train,X_test, Y_train,Y_test = train_test_split(X,Y,test_size=0.2,random_state=42)
+    instance.learn(X_train,Y_train)
+    instance.evaluate(X_test,Y_test)
 
     print("Hi")
