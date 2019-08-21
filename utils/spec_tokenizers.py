@@ -1,4 +1,5 @@
 import nltk
+nltk.download('punkt')
 from nltk.tokenize.util import align_tokens
 from nltk.tokenize.treebank import TreebankWordTokenizer
 import re
