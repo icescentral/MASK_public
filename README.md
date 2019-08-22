@@ -23,6 +23,6 @@ or simply run the following `python3 -m pip install --user pipenv`
 
 ### Coding guideline
 
-1. Please make sure to enable [editorconfig](https://editorconfig.org/) for your IDEA
+1. Please make sure to enable [editorconfig](https://editorconfig.org/) for your IDE
 2. Please try to make your pull requests and tasks as small as possible so the reviewer has easier time to understand the code.
 3. More documentation in your code and readme fils are always appreciated.
