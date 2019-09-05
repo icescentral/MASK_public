@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/icescentral/mask.svg?token=JiqKgisBJvSwPnKWKxhV&branch=develop)](https://travis-ci.com/icescentral/mask)
+
 # Mask Project
 
 Mask project is a collaborative project between [Institute for Clinical Evaluative Sciences](https://www.ices.on.ca/), [University of
