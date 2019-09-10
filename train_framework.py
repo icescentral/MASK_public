@@ -32,7 +32,7 @@ if __name__ == "__main__":
     X,Y = instance.transform_sequences(tokens_labels)
     if args.do_test == "yes":
         X_train,X_test, Y_train,Y_test = train_test_split(X,Y,test_size=0.2,random_state=42)
-        instance.learn(X_train,Y_train,1)
+        instance.learn(X_train,Y_train,150)
         instance.evaluate(X_test,Y_test)
     else:
         instance.learn(X, Y)
