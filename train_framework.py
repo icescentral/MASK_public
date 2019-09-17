@@ -1,3 +1,6 @@
+"""
+    *train_framework.py* - Trains algorithm of selection
+"""
 import argparse
 import importlib
 

@@ -13,8 +13,9 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('.'))
-import sys
-sys.path.insert(0,"/home/mbaxknm4/Mask/mask/")
+sys.path.insert(0, os.path.abspath('./..'))
+print(os.path.abspath('.'))
+#sys.path.insert(0,"/home/mbaxknm4/Mask/mask/")
 sys.path.insert(1,"/usr/local/lib/python3.6/dist-packages")
 # -- Project information -----------------------------------------------------
 
