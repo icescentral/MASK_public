@@ -1,9 +1,6 @@
 import sklearn_crfsuite
 import pickle
-import nltk
 from nltk.tokenize.treebank import TreebankWordTokenizer
-import re
-from nltk.tokenize.util import align_tokens
 from ner_plugins.NER_abstract import NER_abstract
 from utils.spec_tokenizers import tokenize_fa
 

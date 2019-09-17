@@ -7,6 +7,9 @@ from utils.readers import read_i2b2_data
 import utils.spec_tokenizers
 
 if __name__ == "__main__":
+    """
+    Trains algorithm of selection
+    """
     print("Training framework")
     parser = argparse.ArgumentParser(description='Training framework for Named Entity recognition')
     parser.add_argument('--source_type', help = 'source type of the dataset (available values: i2b2)')
@@ -22,7 +25,11 @@ if __name__ == "__main__":
     if documents== None:
         print("Error: No input source is defined")
         exit(2)
-    tokens_labels = utils.spec_tokenizers.tokenize_to_seq(documents)
+    if "bert" in args.algorithm.lower():
+        tokens_labels = utils.spec_tokenizers.tokenize_bert(documents)
+        pass
+    else:
+        tokens_labels = utils.spec_tokenizers.tokenize_to_seq(documents)
     package = "ner_plugins."+ args.algorithm
     algorithm = args.algorithm
     inpor = importlib.import_module(package)
@@ -32,7 +39,8 @@ if __name__ == "__main__":
     X,Y = instance.transform_sequences(tokens_labels)
     if args.do_test == "yes":
         X_train,X_test, Y_train,Y_test = train_test_split(X,Y,test_size=0.2,random_state=42)
-        instance.learn(X_train,Y_train,150)
+        instance.learn(X_train,Y_train,10)
+        #instance.save(args.algorithm)
         instance.evaluate(X_test,Y_test)
     else:
         instance.learn(X, Y)

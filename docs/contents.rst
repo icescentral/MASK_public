@@ -107,11 +107,15 @@ Classes and functions
     :members:
 .. automodule:: ner_plugins
     :members:
+.. automodule:: train_framework
+    :members:
 .. automodule:: masking_plugins
     :members:
 .. autoclass:: mask_framework.Configuration
     :members:
 .. autoclass:: ner_plugins.NER_abstract.NER_abstract
+    :members:
+.. autoclass:: ner_plugins.NER_BiLSTM_ELMo_i2b2.NER_BiLSTM_ELMo_i2b2
     :members:
 .. autoclass:: ner_plugins.NER_CRF.NER_CRF
     :members:
