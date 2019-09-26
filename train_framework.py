@@ -28,11 +28,11 @@ if __name__ == "__main__":
     if documents== None:
         print("Error: No input source is defined")
         exit(2)
-    if "bert" in args.algorithm.lower():
-        tokens_labels = utils.spec_tokenizers.tokenize_bert(documents)
-        pass
-    else:
-        tokens_labels = utils.spec_tokenizers.tokenize_to_seq(documents)
+    # if "bert" in args.algorithm.lower():
+    #     tokens_labels = utils.spec_tokenizers.tokenize_bert(documents)
+    #     pass
+    #else:
+    tokens_labels = utils.spec_tokenizers.tokenize_to_seq(documents)
     package = "ner_plugins."+ args.algorithm
     algorithm = args.algorithm
     inpor = importlib.import_module(package)
