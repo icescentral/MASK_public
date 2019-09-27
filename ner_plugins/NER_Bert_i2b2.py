@@ -87,7 +87,7 @@ valid_dataloader = DataLoader(valid_data, sampler=valid_sampler, batch_size=bs)
 
 model = BertForTokenClassification.from_pretrained("bert-large-uncased", num_labels=len(tag2idx))
 
-model.cuda();
+model.cpu();
 
 
 FULL_FINETUNING = True
@@ -111,7 +111,7 @@ def flat_accuracy(preds, labels):
     return np.sum(pred_flat == labels_flat) / len(labels_flat)
 
 
-epochs = 5
+epochs = 30
 max_grad_norm = 1.0
 
 for _ in trange(epochs, desc="Epoch"):
