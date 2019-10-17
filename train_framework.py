@@ -1,5 +1,6 @@
 """
     *train_framework.py* - Trains algorithm of selection
+    Example of starting: python train_framework.py --source_type i2b2 --source_location "../../NERo/Datasets/i2b2_data/training-PHI-Gold-Set1/" --algorithm NER_CRF_dictionaries --do_test yes --save_model yes
 """
 import argparse
 import importlib
