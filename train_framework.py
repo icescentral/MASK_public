@@ -21,6 +21,7 @@ if __name__ == "__main__":
     parser.add_argument('--do_test', help='source location of the dataset on your hard disk')
     parser.add_argument('--save_model',help='Whether to save the model on HDD in Models folder, with algorithm name')
     parser.add_argument('--algorithm', help='algorithm to use')
+    parser.add_argument('--epochs',help='number of epochs or iteration to train')
     args = parser.parse_args()
     path = args.source_location
     documents= None
@@ -43,7 +44,7 @@ if __name__ == "__main__":
     X,Y = instance.transform_sequences(tokens_labels)
     if args.do_test == "yes":
         X_train,X_test, Y_train,Y_test = train_test_split(X,Y,test_size=0.2,random_state=42)
-        instance.learn(X_train,Y_train,10)
+        instance.learn(X_train,Y_train,int(args.epochs))
         #instance.save(args.algorithm)
         instance.evaluate(X_test,Y_test)
     else:
