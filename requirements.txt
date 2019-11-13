@@ -6,3 +6,6 @@ sklearn-crfsuite==0.3.6
 Sphinx==1.8.5
 tensorflow==1.14.0
 tqdm==4.34.0
+tensorflow_hub==0.7.0
+bert==2.2.0
+attrs==19.1.0
