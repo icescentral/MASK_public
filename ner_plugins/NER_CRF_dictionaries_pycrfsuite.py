@@ -1,27 +1,25 @@
 import os
+from itertools import chain
 
+import pycrfsuite
 import sklearn_crfsuite
 import pickle
 from nltk.tokenize.treebank import TreebankWordTokenizer
+from sklearn.preprocessing import LabelBinarizer
+
 from ner_plugins.NER_abstract import NER_abstract
 from utils.spec_tokenizers import tokenize_fa
 import csv
 import re
 
-class NER_CRF_dictionaries(NER_abstract):
+class NER_CRF_dictionaries_pycrfsuite(NER_abstract):
     """
     The class for executing CRF labelling based on i2b2 dataset (2014).
 
     """
     def __init__(self):
-        filename = 'Models/crf_dict_model.sav'
-        self.crf_model = sklearn_crfsuite.CRF(
-            algorithm='lbfgs',
-            c1=0.1,
-            c2=0.05,
-            max_iterations=200,
-            all_possible_transitions=True
-        )
+        filename = 'Models/CRF_crfsuite_dict.crfsuite'
+        self.crf_model = pycrfsuite.Tagger()
         self._treebank_word_tokenizer = TreebankWordTokenizer()
         country_file = open("Dictionaries/Countries.txt",'r', encoding='utf-8')
         self.dictionary_country = country_file.readlines()
@@ -39,7 +37,7 @@ class NER_CRF_dictionaries(NER_abstract):
         self.dictionary_surname = set([line[:-1].lower() for line in self.dictionary_surname])
 
         if os.path.exists(filename):
-            self.crf_model = pickle.load(open(filename, 'rb'))
+            self.crf_model.open('Models/CRF_crfsuite_dict.crfsuite')
         else:
             self.crf_model = None
         self.dictionary_job_titles = []
@@ -320,14 +318,20 @@ class NER_CRF_dictionaries(NER_abstract):
         :param epochs: Epochs are basically used to calculate max itteration as epochs*200
         :return:
         """
-        self.crf_model = sklearn_crfsuite.CRF(
-            algorithm='lbfgs',
-            c1=0.1,
-            c2=0.05,
-            max_iterations=(epochs*200),
-            all_possible_transitions=True
-        )
-        self.crf_model.fit(X, Y)
+        trainer = pycrfsuite.Trainer(verbose=False)
+        for xseq, yseq in zip(X, Y):
+            trainer.append(xseq, yseq)
+        trainer.set_params({
+            'c1': 1.0,  # coefficient for L1 penalty
+            'c2': 1e-3,  # coefficient for L2 penalty
+            'max_iterations': 250,  # stop earlier
+
+            # include transitions that are possible, but not observed
+            'feature.possible_transitions': True
+        })
+        trainer.train('Models/CRF_crfsuite.crfsuite')
+        self.crf_model = pycrfsuite.Tagger()
+        self.crf_model.open('Models/CRF_crfsuite_dict.crfsuite')
 
     def save(self,model_path):
         """
@@ -335,8 +339,9 @@ class NER_CRF_dictionaries(NER_abstract):
         :param model_path: File name in Models/ folder
         :return:
         """
-        filename = "Models/"+model_path+"1.sav"
-        pickle.dump(self.crf_model, open(filename, 'wb'))
+        # filename = "Models/"+model_path+"1.sav"
+        # pickle.dump(self.crf_model, open(filename, 'wb'))
+        pass
 
     def evaluate(self,X,Y):
         """
@@ -346,14 +351,17 @@ class NER_CRF_dictionaries(NER_abstract):
         :return: Prints the classification report
         """
         from sklearn import metrics
-        Y_pred = self.crf_model.predict(X)
-        labels = list(self.crf_model.classes_)
+        Y_pred = [self.crf_model.tag(xseq) for xseq in X]
+        lb = LabelBinarizer()
+        y_true_combined = lb.fit_transform(list(chain.from_iterable(Y)))
+
+        labels = list(lb.classes_)
+        print(labels)
+        # labels = list(self.crf_model.classes_)
         labels.remove('O')
-        Y_pred_flat  = [item for sublist in Y_pred for item in sublist]
+        Y_pred_flat = [item for sublist in Y_pred for item in sublist]
         Y_flat = [item for sublist in Y for item in sublist]
-        print(metrics.classification_report(Y_pred_flat, Y_flat,labels))
-        print()
-        print(metrics.confusion_matrix(Y_pred_flat, Y_flat))
+        print(metrics.classification_report(Y_pred_flat, Y_flat, labels))
 
     def perform_NER(self,text):
         """
