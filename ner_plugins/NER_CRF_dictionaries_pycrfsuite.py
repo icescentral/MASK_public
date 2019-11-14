@@ -329,7 +329,7 @@ class NER_CRF_dictionaries_pycrfsuite(NER_abstract):
             # include transitions that are possible, but not observed
             'feature.possible_transitions': True
         })
-        trainer.train('Models/CRF_crfsuite.crfsuite')
+        trainer.train('Models/CRF_crfsuite_dict.crfsuite')
         self.crf_model = pycrfsuite.Tagger()
         self.crf_model.open('Models/CRF_crfsuite_dict.crfsuite')
 
