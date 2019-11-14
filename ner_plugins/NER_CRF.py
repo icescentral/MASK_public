@@ -205,18 +205,70 @@ class NER_CRF(NER_abstract):
     def prepare_features(self):
         pass
 
-    def train(self):
+    def save_model(self,path):
+        pickle.dump(self.crf_model, open(path, 'wb'))
+
+    def transform_sequences(self,tokens_labels):
+        """
+        Transforms sequences into the X and Y sets. For X it creates features, while Y is list of labels
+        :param tokens_labels: Input sequences of tuples (token,lable)
+        :return:
+        """
+        X_train = []
+        y_train = []
+        for seq in tokens_labels:
+            features_seq = []
+            labels_seq = []
+            for i in range(0, len(seq)):
+                features_seq.append(self.word2features(seq, i))
+                labels_seq.append(self.word2labels(seq[i]))
+            X_train.append(features_seq)
+            y_train.append(labels_seq)
+        return X_train,y_train
+
+
+
+
+    def learn(self,X,Y,epochs =1):
+        """
+        Function for training CRF algorithm
+        :param X: Training set input tokens and features
+        :param Y: Training set expected outputs
+        :param epochs: Epochs are basically used to calculate max itteration as epochs*200
+        :return:
+        """
         self.crf_model = sklearn_crfsuite.CRF(
             algorithm='lbfgs',
             c1=0.1,
             c2=0.05,
-            max_iterations=200,
+            max_iterations=(epochs*200),
             all_possible_transitions=True
         )
-        self.crf_model.fit(self.X_train, self.y_train)
-    def save_model(self,path):
-        pickle.dump(self.crf_model, open(path, 'wb'))
+        self.crf_model.fit(X, Y)
 
+    def save(self,model_path):
+        """
+        Function that saves the CRF model using pickle
+        :param model_path: File name in Models/ folder
+        :return:
+        """
+        filename = "Models/"+model_path+"1.sav"
+        pickle.dump(self.crf_model, open(filename, 'wb'))
+
+    def evaluate(self,X,Y):
+        """
+        Function that takes testing data and evaluates them by making classification report matching predictions with Y argument of the function
+        :param X: Input sequences of words with features
+        :param Y: True labels
+        :return: Prints the classification report
+        """
+        from sklearn import metrics
+        Y_pred = self.crf_model.predict(X)
+        labels = list(self.crf_model.classes_)
+        labels.remove('O')
+        Y_pred_flat  = [item for sublist in Y_pred for item in sublist]
+        Y_flat = [item for sublist in Y for item in sublist]
+        print(metrics.classification_report(Y_pred_flat, Y_flat,labels))
 
     def perform_NER(self,text):
         """
