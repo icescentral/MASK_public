@@ -42,3 +42,7 @@ Training of NER algorithms is at the moment supported only if in i2b2 format (ot
 1. Please make sure to enable [editorconfig](https://editorconfig.org/) for your IDE
 2. Please try to make your pull requests and tasks as small as possible so the reviewer has easier time to understand the code.
 3. More documentation in your code and readme fils are always appreciated.
+
+### Contributors
+1. [Nikola Milosevic](http://inspiratron.org/)
+2. [Hesam Dadafarin](https://evenset.com/blog/author/admin/)
