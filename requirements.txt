@@ -1,3 +1,4 @@
+sphinx_rtd_theme==0.4.*
 Keras>=2.2.5
 nltk>=3.4.5
 numpy==1.17.0
@@ -7,5 +8,5 @@ Sphinx==1.8.5
 tensorflow==1.14.0
 tqdm==4.34.0
 tensorflow_hub==0.7.0
-bert==2.2.0
 attrs==19.1.0
+pycrfsuite==0.9.6
