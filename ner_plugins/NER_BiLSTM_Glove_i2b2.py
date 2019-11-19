@@ -247,7 +247,8 @@ class NER_BiLSTM_Glove_i2b2(object):
         self.model.add(Bidirectional(LSTM(150, dropout=0.3, recurrent_dropout=0.6, return_sequences=True)))#{'sum', 'mul', 'concat', 'ave', None}
         self.model.add(Bidirectional(LSTM(60, dropout=0.2, recurrent_dropout=0.5, return_sequences=True)))
         self.model.add(TimeDistributed(Dense(9, activation='softmax')))  # a dense layer as suggested by neuralNer
-        self.model.compile(loss="categorical_crossentropy", optimizer='rmsprop', metrics=['accuracy'])
+        self.model.compile(loss="categorical_crossentropy", optimizer='rmsprop'
+                           , metrics=['accuracy'])
         self.model.summary()
         pass
 

@@ -3,8 +3,12 @@ nltk.download('punkt')
 from nltk.tokenize.util import align_tokens
 from nltk.tokenize.treebank import TreebankWordTokenizer
 import re
-
+import tensorflow_hub as hub
+#from bert.tokenization import FullTokenizer
+import tensorflow as tf
+sess = tf.Session()
 _treebank_word_tokenizer = TreebankWordTokenizer()
+
 
 def tokenize_to_seq(documents):
     sequences = []
@@ -32,7 +36,7 @@ def tokenize_to_seq(documents):
                 token_tag = "O"
                 #token_tag_type = "O"
             sequence.append((token_txt,token_tag))
-            if token_txt == ".":
+            if token_txt == "." or token_txt == "?" or token_txt == "!":
                 sequences.append(sequence)
                 sequence = []
         sequences.append(sequence)

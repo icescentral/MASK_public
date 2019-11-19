@@ -104,10 +104,10 @@ def main():
                """
     print("Welcome to MASK")
     cf = Configuration()
-    print(cf.entities_list)
     data = [f for f in listdir(cf.dataset_location) if isfile(join(cf.dataset_location, f))]
     algorithms = []
     # Load algorithms in data structure
+    # TODO: Still optimize!
     for entity in cf.entities_list:
         algorithm = "ner_plugins." + entity['algorithm']
         masking_type = entity['masking_type']

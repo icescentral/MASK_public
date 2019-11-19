@@ -5,14 +5,16 @@ import pickle
 from nltk.tokenize.treebank import TreebankWordTokenizer
 from ner_plugins.NER_abstract import NER_abstract
 from utils.spec_tokenizers import tokenize_fa
+import csv
+import re
 
-class NER_CRF(NER_abstract):
+class NER_CRF_dictionaries(NER_abstract):
     """
     The class for executing CRF labelling based on i2b2 dataset (2014).
 
     """
     def __init__(self):
-        filename = 'Models/crf_baseline_model.sav'
+        filename = 'Models/crf_dict_model.sav'
         self.crf_model = sklearn_crfsuite.CRF(
             algorithm='lbfgs',
             c1=0.1,
@@ -21,11 +23,35 @@ class NER_CRF(NER_abstract):
             all_possible_transitions=True
         )
         self._treebank_word_tokenizer = TreebankWordTokenizer()
+        country_file = open("Dictionaries/Countries.txt",'r', encoding='utf-8')
+        self.dictionary_country = country_file.readlines()
+        self.dictionary_country = set([line[:-1] for line in self.dictionary_country])
+        city_file = open("Dictionaries/Cities.txt",'r', encoding='utf-8')
+        self.dictionary_city = city_file.readlines()
+        self.dictionary_city = set([line[:-1] for line in self.dictionary_city])
+
+        first_name_file = open("Dictionaries/dictionary_first_names.txt", 'r', encoding='utf-8')
+        self.dictionary_first_name = first_name_file.readlines()
+        self.dictionary_first_name = set([line[:-1].lower() for line in self.dictionary_first_name])
+
+        surname_file = open("Dictionaries/dictionary_surnames.txt", 'r', encoding='utf-8')
+        self.dictionary_surname = surname_file.readlines()
+        self.dictionary_surname = set([line[:-1].lower() for line in self.dictionary_surname])
+
         if os.path.exists(filename):
             self.crf_model = pickle.load(open(filename, 'rb'))
         else:
             self.crf_model = None
-
+        self.dictionary_job_titles = []
+        with open('Dictionaries/job_title_dictionary.txt', encoding='utf-8') as csv_file:
+            csv_reader = csv.reader(csv_file,delimiter='\t')
+            for row in csv_reader:
+                if row[2]=='assignedrole':
+                    candidates = row[0].lower().split(' ')
+                    for can in candidates:
+                        if len(can)>2:
+                            self.dictionary_job_titles.append(can)
+        self.dictionary_job_titles = set(self.dictionary_job_titles)
         pass
 
     def shape(self,word):
@@ -52,7 +78,8 @@ class NER_CRF(NER_abstract):
                   """
         word = sent[i][0]
         #postag = sent[i][1]
-
+        regex = "[a-zA-Z\.]+@[a-zA-Z]+([\.][a-z]+)+"
+        prog = re.compile(regex)
         features = {
             'bias': 1.0,
             'word.lower()': word.lower(),
@@ -62,6 +89,12 @@ class NER_CRF(NER_abstract):
             'word.shape()':self.shape(word),
             'word.isalnum()':word.isalnum(),
             'word.isalpha()':word.isalpha(),
+            'word.iscountry': word in self.dictionary_country,
+            'word.iscity': word.lower() in self.dictionary_city,
+            #'word.isprofession': word.lower() in self.dictionary_job_titles,
+            'word.isname':word.lower() in self.dictionary_first_name,
+            'word.issurname': word.lower() in self.dictionary_surname,
+            'word.isemail':  True if prog.match(word)==True else False,
             # 'postag': postag,
             # 'postag[:2]': postag[:2],
         }
@@ -75,6 +108,12 @@ class NER_CRF(NER_abstract):
                 '-1:word.isdigit()': word1.isdigit(),
                 '-1:word.isalnum()':word1.isalnum(),
                 '-1:word.isalpha()':word1.isalpha(),
+                '-1:word.iscountry': word1 in self.dictionary_country,
+                '-1:word.iscity': word1.lower() in self.dictionary_city,
+                #'-1:word.isprofession': word1.lower() in self.dictionary_job_titles,
+                '-1:word.isname': word1.lower() in self.dictionary_first_name,
+                '-1:word.issurname': word1.lower() in self.dictionary_surname,
+                '-1:word.isemail': True if prog.match(word1)==True else False,
                 # '-1:postag': postag1,
                 # '-1:postag[:2]': postag1[:2],
             })
@@ -91,6 +130,12 @@ class NER_CRF(NER_abstract):
                 '-2:word.isdigit()': word2.isdigit(),
                 '-2:word.isalnum()': word2.isalnum(),
                 '-2:word.isalpha()': word2.isalpha(),
+                '-2:word.iscountry': word2 in self.dictionary_country,
+                '-2:word.iscity': word2.lower() in self.dictionary_city,
+                #'-2:word.isprofession': word2.lower() in self.dictionary_job_titles,
+                '-2:word.isname': word2.lower() in self.dictionary_first_name,
+                '-2:word.issurname': word2.lower() in self.dictionary_surname,
+                '-2:word.isemail': True if prog.match(word2)==True else False,
                 # '-2:postag': postag2,
                 # '-2:postag[:2]': postag2[:2],
             })
@@ -106,6 +151,12 @@ class NER_CRF(NER_abstract):
                 '-3:word.isdigit()': word3.isdigit(),
                 '-3:word.isalnum()': word3.isalnum(),
                 '-3:word.isalpha()': word3.isalpha(),
+                '-3:word.iscountry': word3 in self.dictionary_country,
+                '-3:word.iscity': word3.lower() in self.dictionary_city,
+                #'-3:word.isprofession': word3.lower() in self.dictionary_job_titles,
+                '-3:word.isname': word3.lower() in self.dictionary_first_name,
+                '-3:word.issurname': word3.lower() in self.dictionary_surname,
+                '-3:word.isemail': True if prog.match(word3)==True else False,
                 # '-3:postag': postag3,
                 # '-3:postag[:2]': postag3[:2],
             })
@@ -122,6 +173,12 @@ class NER_CRF(NER_abstract):
                 '-4:word.isdigit()': word4.isdigit(),
                 '-4:word.isalnum()': word4.isalnum(),
                 '-4:word.isalpha()': word4.isalpha(),
+                '-4:word.iscountry': word4 in self.dictionary_country,
+                '-4:word.iscity': word4.lower() in self.dictionary_city,
+                #'-4:word.isprofession': word4.lower() in self.dictionary_job_titles,
+                '-4:word.isname': word4.lower() in self.dictionary_first_name,
+                '-4:word.issurname': word4.lower() in self.dictionary_surname,
+                '-4:word.isemail': True if prog.match(word4)==True else False,
                 # '-4:postag': postag4,
                 # '-4:postag[:2]': postag4[:2],
             })
@@ -137,6 +194,12 @@ class NER_CRF(NER_abstract):
                 '+1:word.isdigit()': word1.isdigit(),
                 '+1:word.isalnum()': word1.isalnum(),
                 '+1:word.isalpha()': word1.isalpha(),
+                '+1:word.iscountry': word1 in self.dictionary_country,
+                '+1:word.iscity': word1.lower() in self.dictionary_city,
+                #'+1:word.isprofession': word1.lower() in self.dictionary_job_titles,
+                '+1:word.isname': word1.lower() in self.dictionary_first_name,
+                '+1:word.issurname': word1.lower() in self.dictionary_surname,
+                '+1:word.isemail': True if prog.match(word1)==True else False,
                 # '+1:postag': postag1,
                 # '+1:postag[:2]': postag1[:2],
             })
@@ -152,6 +215,12 @@ class NER_CRF(NER_abstract):
                 '+2:word.isdigit()': word12.isdigit(),
                 '+2:word.isalnum()': word12.isalnum(),
                 '+2:word.isalpha()': word12.isalpha(),
+                '+2:word.iscountry': word12 in self.dictionary_country,
+                '+2:word.iscity': word12.lower() in self.dictionary_city,
+                #'+2:word.isprofession': word12.lower() in self.dictionary_job_titles,
+                '+2:word.isname': word12.lower() in self.dictionary_first_name,
+                '+2:word.issurname': word12.lower() in self.dictionary_surname,
+                '+2:word.isemail': True if prog.match(word12)==True else False,
                 # '+2:postag': postag12,
                 # '+2:postag[:2]': postag12[:2],
             })
@@ -167,6 +236,12 @@ class NER_CRF(NER_abstract):
                 '+3:word.isdigit()': word13.isdigit(),
                 '+3:word.isalnum()': word13.isalnum(),
                 '+3:word.isalpha()': word13.isalpha(),
+                '+3:word.iscountry': word13 in self.dictionary_country,
+                '+3:word.iscity': word13.lower() in self.dictionary_city,
+                #'+3:word.isprofession': word13.lower() in self.dictionary_job_titles,
+                '+3:word.isname': word13.lower() in self.dictionary_first_name,
+                '+3:word.issurname': word13.lower() in self.dictionary_surname,
+                '+3:word.isemail': True if prog.match(word13)==True else False,
                 # '+3:postag': postag13,
                 # '+3:postag[:2]': postag13[:2],
             })
@@ -182,6 +257,12 @@ class NER_CRF(NER_abstract):
                 '+4:word.isdigit()': word14.isdigit(),
                 '+4:word.isalnum()': word14.isalnum(),
                 '+4:word.isalpha()': word14.isalpha(),
+                '+4:word.iscountry': word14 in self.dictionary_country,
+                '+4:word.iscity': word14.lower() in self.dictionary_city,
+                #'+4:word.isprofession': word14.lower() in self.dictionary_job_titles,
+                '+4:word.isname': word14.lower() in self.dictionary_first_name,
+                '+4:word.issurname': word14.lower() in self.dictionary_surname,
+                '+4:word.isemail': True if prog.match(word14)==True else False,
                 # '+4:postag': postag14,
                 # '+4:postag[:2]': postag14[:2],
             })
@@ -271,6 +352,8 @@ class NER_CRF(NER_abstract):
         Y_pred_flat  = [item for sublist in Y_pred for item in sublist]
         Y_flat = [item for sublist in Y for item in sublist]
         print(metrics.classification_report(Y_pred_flat, Y_flat,labels))
+        print()
+        print(metrics.confusion_matrix(Y_pred_flat, Y_flat))
 
     def perform_NER(self,text):
         """
