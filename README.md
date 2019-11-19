@@ -30,6 +30,7 @@ More concretly:
 
 Training of NER algorithms is at the moment supported only if in i2b2 format (other format need to be converted to this format). i2b2 2014, which have been used in development of this tool can be requested at the following location: https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
+
 ## Contribution
 
 ### Git Branching
