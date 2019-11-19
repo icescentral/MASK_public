@@ -28,6 +28,7 @@ More concretly:
 
 - mask_framework.py - This file is used to run NER and masking. As input it uses a set of text files and outputs a set of text fules. Input and output paths, as well as masking and NER algorithms are defined in configuration.cnf file. 
 
+Training of NER algorithms is at the moment supported only if in i2b2 format (other format need to be converted to this format). i2b2 2014, which have been used in development of this tool can be requested at the following location: https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
 ## Contribution
 
