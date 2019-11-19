@@ -1,28 +1,26 @@
 import os
+from itertools import chain
 
-import sklearn_crfsuite
+import pycrfsuite
 import pickle
 from nltk.tokenize.treebank import TreebankWordTokenizer
+from sklearn.metrics import classification_report
+from sklearn.preprocessing import LabelBinarizer
+
 from ner_plugins.NER_abstract import NER_abstract
 from utils.spec_tokenizers import tokenize_fa
 
-class NER_CRF(NER_abstract):
+class NER_CRF_python_crfsuite(NER_abstract):
     """
     The class for executing CRF labelling based on i2b2 dataset (2014).
 
     """
     def __init__(self):
-        filename = 'Models/crf_baseline_model.sav'
-        self.crf_model = sklearn_crfsuite.CRF(
-            algorithm='lbfgs',
-            c1=0.1,
-            c2=0.05,
-            max_iterations=200,
-            all_possible_transitions=True
-        )
+        filename = 'Models/CRF_crfsuite.crfsuite'
+        self.crf_model =pycrfsuite.Tagger()
         self._treebank_word_tokenizer = TreebankWordTokenizer()
         if os.path.exists(filename):
-            self.crf_model = pickle.load(open(filename, 'rb'))
+            self.crf_model.open('Models/CRF_crfsuite.crfsuite')
         else:
             self.crf_model = None
 
@@ -239,14 +237,21 @@ class NER_CRF(NER_abstract):
         :param epochs: Epochs are basically used to calculate max itteration as epochs*200
         :return:
         """
-        self.crf_model = sklearn_crfsuite.CRF(
-            algorithm='lbfgs',
-            c1=0.1,
-            c2=0.05,
-            max_iterations=(epochs*200),
-            all_possible_transitions=True
-        )
-        self.crf_model.fit(X, Y)
+        trainer = pycrfsuite.Trainer(verbose=False)
+        for xseq, yseq in zip(X, Y):
+            trainer.append(xseq, yseq)
+        trainer.set_params({
+            'c1': 0.1,  # coefficient for L1 penalty
+            'c2': 0.05,  # coefficient for L2 penalty
+            'max_iterations': 250,  # stop earlier
+
+            # include transitions that are possible, but not observed
+            'feature.possible_transitions': True
+        })
+        trainer.train('Models/CRF_crfsuite.crfsuite')
+        self.crf_model = pycrfsuite.Tagger()
+        self.crf_model.open('Models/CRF_crfsuite.crfsuite')
+
 
     def save(self,model_path):
         """
@@ -254,8 +259,9 @@ class NER_CRF(NER_abstract):
         :param model_path: File name in Models/ folder
         :return:
         """
-        filename = "Models/"+model_path+"1.sav"
-        pickle.dump(self.crf_model, open(filename, 'wb'))
+        pass
+        # filename = "Models/"+model_path+"1.sav"
+        # pickle.dump(self.crf_model, open(filename, 'wb'))
 
     def evaluate(self,X,Y):
         """
@@ -265,8 +271,13 @@ class NER_CRF(NER_abstract):
         :return: Prints the classification report
         """
         from sklearn import metrics
-        Y_pred = self.crf_model.predict(X)
-        labels = list(self.crf_model.classes_)
+        Y_pred = [self.crf_model.tag(xseq) for xseq in X]
+        lb = LabelBinarizer()
+        y_true_combined = lb.fit_transform(list(chain.from_iterable(Y)))
+
+        labels = list(lb.classes_)
+        print(labels)
+        # labels = list(self.crf_model.classes_)
         labels.remove('O')
         Y_pred_flat  = [item for sublist in Y_pred for item in sublist]
         Y_flat = [item for sublist in Y for item in sublist]
@@ -294,7 +305,8 @@ class NER_CRF(NER_abstract):
                 sentence.append(seq[i][0])
             X_test.append(features_seq)
             word_sequences.append(sentence)
-        y_pred = self.crf_model.predict(X_test)
+        y_pred = [self.crf_model.tag(xseq) for xseq in X_test]
+        #y_pred = self.crf_model.tag(X_test)
         final_sequences = []
         for i in range(0,len(y_pred)):
             sentence = []

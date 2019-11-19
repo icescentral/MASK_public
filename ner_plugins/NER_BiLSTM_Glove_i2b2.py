@@ -9,6 +9,9 @@ import numpy as np
 from keras_preprocessing.text import Tokenizer
 import pickle
 import os
+import urllib.request
+from zipfile import ZipFile
+
 
 class NER_BiLSTM_Glove_i2b2(object):
     """Class that implements and performs named entity recognition using BiLSTM neural network architecture. The architecture uses GloVe
@@ -21,6 +24,16 @@ class NER_BiLSTM_Glove_i2b2(object):
         json_file.close()
         self.model = model_from_json(loaded_model_json)
         self.GLOVE_DIR = "Resources/"
+        if os.path.isdir(self.GLOVE_DIR) == False or os.path.isfile(self.GLOVE_DIR+"glove.840B.300d.txt")==False:
+            if os.path.exists(self.GLOVE_DIR)==False:
+                os.mkdir(self.GLOVE_DIR)
+            print('Beginning file download with urllib2...')
+            url = 'http://nlp.stanford.edu/data/glove.840B.300d.zip'
+            urllib.request.urlretrieve(url, self.GLOVE_DIR+'glove.840B.300d.zip')
+            with ZipFile(self.GLOVE_DIR+'glove.840B.300d.zip', 'r') as zipObj:
+            # Extract all the contents of zip file in current directory
+                zipObj.extractall(self.GLOVE_DIR)
+            os.remove(self.GLOVE_DIR+"glove.840B.300d.zip")
         # load weights into new model
         self.model.load_weights("Models/BiLSTM_Glove_de_identification_model.h5")
         print("Loaded model from disk")
@@ -190,6 +203,16 @@ class NER_BiLSTM_Glove_i2b2(object):
 
     def createModel(self, text,GLOVE_DIR):
         self.embeddings_index = {}
+        if os.path.isdir(GLOVE_DIR) == False or os.path.isfile(GLOVE_DIR+"glove.840B.300d.txt")==False:
+            print('Beginning GloVe file download with urllib2...')
+            url = 'http://nlp.stanford.edu/data/glove.840B.300d.zip'
+            if os.path.exists(self.GLOVE_DIR)==False:
+                os.mkdir(self.GLOVE_DIR)
+            urllib.request.urlretrieve(url, self.GLOVE_DIR+'glove.840B.300d.zip')
+            with ZipFile(self.GLOVE_DIR+'glove.840B.300d.zip', 'r') as zipObj:
+            # Extract all the contents of zip file in current directory
+                zipObj.extractall(GLOVE_DIR)
+            os.remove(self.GLOVE_DIR+"glove.840B.300d.zip")
         f = open(os.path.join(GLOVE_DIR, 'glove.840B.300d.txt'),encoding='utf')
         for line in f:
             values = line.split()
@@ -224,7 +247,8 @@ class NER_BiLSTM_Glove_i2b2(object):
         self.model.add(Bidirectional(LSTM(150, dropout=0.3, recurrent_dropout=0.6, return_sequences=True)))#{'sum', 'mul', 'concat', 'ave', None}
         self.model.add(Bidirectional(LSTM(60, dropout=0.2, recurrent_dropout=0.5, return_sequences=True)))
         self.model.add(TimeDistributed(Dense(9, activation='softmax')))  # a dense layer as suggested by neuralNer
-        self.model.compile(loss="categorical_crossentropy", optimizer='rmsprop', metrics=['accuracy'])
+        self.model.compile(loss="categorical_crossentropy", optimizer='rmsprop'
+                           , metrics=['accuracy'])
         self.model.summary()
         pass
 
@@ -239,8 +263,8 @@ class NER_BiLSTM_Glove_i2b2(object):
                                  True)
         return X,Y
 
-    def learn(self,X,Y):
-        self.model.fit(X, Y, epochs=1, validation_split=0.1, batch_size=64)
+    def learn(self,X,Y,epochs=1):
+        self.model.fit(X, Y, epochs=epochs, validation_split=0.1, batch_size=64)
 
     def evaluate(self,X,Y):
         Y_pred = self.model.predict(X)

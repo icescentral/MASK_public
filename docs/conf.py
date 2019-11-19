@@ -13,8 +13,9 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('.'))
-import sys
-sys.path.insert(0,"/home/mbaxknm4/Mask/mask/")
+sys.path.insert(0, os.path.abspath('./..'))
+print(os.path.abspath('.'))
+#sys.path.insert(0,"/home/mbaxknm4/Mask/mask/")
 sys.path.insert(1,"/usr/local/lib/python3.6/dist-packages")
 # -- Project information -----------------------------------------------------
 
@@ -50,4 +51,4 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ['_build/html/_static']
