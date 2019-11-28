@@ -1,7 +1,9 @@
+
 """
     *train_framework.py* - Trains algorithm of selection
     Example of starting: python train_framework.py --source_type i2b2 --source_location "../../NERo/Datasets/i2b2_data/training-PHI-Gold-Set1/" --algorithm NER_CRF_dictionaries --do_test yes --save_model yes
 """
+
 import argparse
 import importlib
 
@@ -11,9 +13,11 @@ from utils.readers import read_i2b2_data
 import utils.spec_tokenizers
 
 if __name__ == "__main__":
+
     """
     Trains algorithm of selection
     """
+
     print("Training framework")
     parser = argparse.ArgumentParser(description='Training framework for Named Entity recognition')
     parser.add_argument('--source_type', help = 'source type of the dataset (available values: i2b2)')
@@ -34,6 +38,7 @@ if __name__ == "__main__":
     #     tokens_labels = utils.spec_tokenizers.tokenize_bert(documents)
     #     pass
     #else:
+
     tokens_labels = utils.spec_tokenizers.tokenize_to_seq(documents)
     package = "ner_plugins."+ args.algorithm
     algorithm = args.algorithm
@@ -44,8 +49,10 @@ if __name__ == "__main__":
     X,Y = instance.transform_sequences(tokens_labels)
     if args.do_test == "yes":
         X_train,X_test, Y_train,Y_test = train_test_split(X,Y,test_size=0.2,random_state=42)
+
         instance.learn(X_train,Y_train,int(args.epochs))
         #instance.save(args.algorithm)
+
         instance.evaluate(X_test,Y_test)
     else:
         instance.learn(X, Y)
