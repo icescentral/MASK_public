@@ -60,15 +60,15 @@ class NER_BiLSTM_ELMo_i2b2(object):
             word_sequences.append(sentence)
 
         X = []
-        
+
         remaining = len(word_sequences)%32
         additional_seq = 32 - remaining
         for i in range(0,additional_seq):
             X_seq = []
             for i in range(0,self.max_len):
                 X_seq.append("PADword")
-               word_sequences.append(X_seq)
-        
+                word_sequences.append(X_seq)
+
         for tok_seq in word_sequences:
             X_seq = []
             for i in range(0, self.max_len):
