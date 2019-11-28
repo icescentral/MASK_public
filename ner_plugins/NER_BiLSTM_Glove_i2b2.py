@@ -1,6 +1,6 @@
 from keras import Sequential
 from keras.engine.saving import model_from_json
-from keras.layers import Embedding, Bidirectional, LSTM, Dense, TimeDistributed
+from keras.layers import Embedding, Bidirectional, LSTM, Dense, TimeDistributed6
 from sklearn.preprocessing import LabelBinarizer
 from tqdm import tqdm
 from keras_preprocessing import sequence
