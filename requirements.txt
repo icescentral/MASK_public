@@ -9,4 +9,6 @@ tensorflow==1.14.0
 tqdm==4.34.0
 tensorflow_hub==0.7.0
 attrs==19.1.0
-pycrfsuite==0.9.6
+python-crfsuite==0.9.6
+pytest==5.1.1
+pylint==2.4.4
