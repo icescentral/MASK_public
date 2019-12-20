@@ -4,6 +4,7 @@
 from random import randrange, choice
 import string
 from masking_plugins.Mask_abstract import Mask_abstract
+
 class MaskZipcodeRandomized(Mask_abstract):
     """This class masks a given zipcode and
     returns a new one with the last three characters randomized"""

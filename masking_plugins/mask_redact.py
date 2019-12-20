@@ -1,10 +1,10 @@
-""" First name randomized mask """
+""" FRedact plugin mask """
 
 from masking_plugins.Mask_abstract import Mask_abstract
 
 
 class MaskRedact(Mask_abstract):
-    """This class replace the first name with randomized name from the dictionary"""
+    """Redact the token with a PHI type"""
     def __init__(self):
         self.replacements = {}
 
