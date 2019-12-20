@@ -5,7 +5,7 @@ from masking_plugins.Mask_abstract import Mask_abstract
 from Dictionaries.populate import job_titles
 
 
-class MaskLastNameRandomized(Mask_abstract):
+class MaskJobRandomized(Mask_abstract):
     """This class replace the job title with randomized jobs from the dictionary"""
     def __init__(self):
         self.replacements = {}
