@@ -60,6 +60,15 @@ class NER_BiLSTM_ELMo_i2b2(object):
             word_sequences.append(sentence)
 
         X = []
+
+        remaining = len(word_sequences)%32
+        additional_seq = 32 - remaining
+        for i in range(0,additional_seq):
+            X_seq = []
+            for i in range(0,self.max_len):
+                X_seq.append("PADword")
+            word_sequences.append(X_seq)
+
         for tok_seq in word_sequences:
             X_seq = []
             for i in range(0, self.max_len):
@@ -83,6 +92,8 @@ class NER_BiLSTM_ELMo_i2b2(object):
             for j in range(0, len(word_sequences[i])):
                 max_k = 0
                 max_k_val = 0
+                if j>=50:
+                    continue
                 for k in range(0, len(predictions[i][j])):
                     if predictions[i][j][k] > max_k_val:
                         max_k_val = predictions[i][j][k]
@@ -93,6 +104,8 @@ class NER_BiLSTM_ELMo_i2b2(object):
         final_sequences = []
         for j in range(0, len(Y_pred_F)):
             sentence = []
+            if j>=len(sequences):
+                continue
             for i in range(len(Y_pred_F[j])-len(sequences[j]), len(Y_pred_F[j])):
                 sentence.append((sequences[j][i-(len(Y_pred_F[j])-len(sequences[j]))][0], Y_pred_F[j][i]))
             final_sequences.append(sentence)

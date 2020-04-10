@@ -41,8 +41,8 @@ class NER_CRF_dictionaries_pycrfsuite(NER_abstract):
         else:
             self.crf_model = None
         self.dictionary_job_titles = []
-        with open('Dictionaries/job_title_dictionary.txt', encoding='utf-8') as csv_file:
-            csv_reader = csv.reader(csv_file,delimiter='\t')
+        with open('Dictionaries/job_title_dictionary.csv', encoding='utf-8') as csv_file:
+            csv_reader = csv.reader(csv_file,delimiter=',')
             for row in csv_reader:
                 if row[2]=='assignedrole':
                     candidates = row[0].lower().split(' ')

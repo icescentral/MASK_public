@@ -19,10 +19,12 @@ class NER_BiLSTM_Glove_i2b2(object):
     def __init__(self):
         """Implementation of initialization"""
         # load json and create model
-        json_file = open('Models/BiLSTM_Glove_de_identification_model.json', 'r')
-        loaded_model_json = json_file.read()
-        json_file.close()
-        self.model = model_from_json(loaded_model_json)
+        self.model = None
+        if os.path.exists('Models/BiLSTM_Glove_de_identification_model.json'):
+            json_file = open('Models/BiLSTM_Glove_de_identification_model.json', 'r')
+            loaded_model_json = json_file.read()
+            json_file.close()
+            self.model = model_from_json(loaded_model_json)
         self.GLOVE_DIR = "Resources/"
         if os.path.isdir(self.GLOVE_DIR) == False or os.path.isfile(self.GLOVE_DIR+"glove.840B.300d.txt")==False:
             if os.path.exists(self.GLOVE_DIR)==False:
