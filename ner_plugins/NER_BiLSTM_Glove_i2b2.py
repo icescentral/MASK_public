@@ -162,7 +162,6 @@ class NER_BiLSTM_Glove_i2b2(object):
             word_sequences.append(sentence)
         tensor = self.build_tensor(sequences, len(sequences), self.word_index, 70)
         predictions = self.model.predict(tensor)
-        str_pred = []
         Y_pred_F = []
         for i in range(0,len(predictions)):
             seq= []
@@ -219,7 +218,6 @@ class NER_BiLSTM_Glove_i2b2(object):
         for line in f:
             values = line.split()
             word = ''.join(values[:-300])
-            #word = values[0]
             coefs = np.asarray(values[-300:], dtype='float32')
             self.embeddings_index[word] = coefs
         f.close()
@@ -272,8 +270,6 @@ class NER_BiLSTM_Glove_i2b2(object):
         Y_pred = self.model.predict(X)
         from sklearn import metrics
         labels = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        # labels = ["DATE", "LOCATION", "NAME", "ID", "AGE", "CONTACT", "PROFESSION", "PHI"]
-
         Y_pred_F = []
 
         for i in range(0, len(Y_pred)):

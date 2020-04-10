@@ -85,7 +85,6 @@ class NER_BiLSTM_ELMo_i2b2(object):
         index2tags = {0:'O', 1:'ID', 2:'PHI', 3:'NAME', 4:'CONTACT',
                       5:'DATE', 6:'AGE', 7:'PROFESSION', 8:'LOCATION'}
         predictions = self.model.predict([X])
-        str_pred = []
         Y_pred_F = []
         for i in range(0, len(word_sequences)):
             seq = []
