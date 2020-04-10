@@ -130,7 +130,7 @@ def main():
 
     mask_running_log = open('log_mask_running.log','w',encoding='utf-8')
     mask_running_log.write("Project name: "+cf.project_name+"\n")
-    mask_running_log.write("Time of run: " + str(datetime.datetime.now()) + "\n")
+    mask_running_log.write("Time of run: " + str(datetime.datetime.now()) + "\n\n")
     mask_running_log.write("RUN LOG \n")
     elements = []
     for file in data:
@@ -180,9 +180,9 @@ def main():
         file_handler.close()
         for alg in algorithms:
             cnt = elements.count(alg['entity_name'])
-            if ["masking_type"] == "Mask":
+            if alg["masking_type"] == "Mask":
                 mask_running_log.write('Total masked for '+alg['entity_name']+": "+str(cnt)+'\n')
-            if ["masking_type"] == "Redact":
+            if alg["masking_type"] == "Redact":
                 mask_running_log.write('Total redacted for '+alg['entity_name']+": "+str(cnt)+'\n')
         mask_running_log.write('END for file:'+ file+'\n')
         mask_running_log.write('========================================================================')
