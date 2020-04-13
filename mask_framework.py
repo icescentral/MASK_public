@@ -5,6 +5,8 @@ from os import listdir, path, mkdir
 from os.path import isfile, join
 import xml.etree.ElementTree as ET
 import importlib
+
+import datetime
 from nltk.tokenize.treebank import TreebankWordTokenizer
 from nltk.tokenize.util import align_tokens
 class Configuration():
@@ -126,7 +128,13 @@ def main():
         instance = class_()
         algorithms.append({"algorithm":algorithm, "masking_type":masking_type, "entity_name":entity_name, "instance":instance, "masking_class":masking_class})
 
+    mask_running_log = open('log_mask_running.log','w',encoding='utf-8')
+    mask_running_log.write("Project name: "+cf.project_name+"\n")
+    mask_running_log.write("Time of run: " + str(datetime.datetime.now()) + "\n\n")
+    mask_running_log.write("RUN LOG \n")
+    elements = []
     for file in data:
+        mask_running_log.write("Running stats for file: "+file+'\n')
         text = open(cf.dataset_location+"/"+file, 'r').read()
         new_text = text
         for alg in algorithms:
@@ -139,10 +147,14 @@ def main():
                 for i in range(0, len(result)):
                     if result[i][1] == alg["entity_name"]:
                         token_size = result[i][3]-result[i][2]
+                        old_token = result[i][0]
                         new_token = "XXX"
                         replacement_size = len(new_token)
                         new_text = new_text[:result[i][2]] + new_token+new_text[result[i][3]:]
                         result = recalculate_tokens(result, i, token_size, replacement_size, new_text, new_token)
+                        elements.append(result[i][1])
+                        mask_running_log.write("REDACTED ENTITY: "+result[i][1]+" -- "+old_token+' ->'+new_token+'\n')
+
             elif alg["masking_type"] == "Mask":
                 masking_class = alg['masking_class']
                 plugin_module = importlib.import_module("masking_plugins." + masking_class)
@@ -150,11 +162,15 @@ def main():
                 masking_instance = class_masking()
                 for i in range(0, len(result)):
                     if result[i][1] == alg["entity_name"]:
+                        old_token = result[i][0]
                         token_size = result[i][3] - result[i][2]
                         new_token = masking_instance.mask(result[i][0])
                         replacement_size = len(new_token)
                         new_text = new_text[:result[i][2]] + new_token + new_text[result[i][3]:]
                         result = recalculate_tokens(result, i, token_size, replacement_size, new_text, new_token)
+                        elements.append(result[i][1])
+                        mask_running_log.write(
+                            "MASKED ENTITY: " + result[i][1] + " -- " + old_token + ' ->' + new_token+'\n')
             # Create target Directory if don't exist
         if not path.exists(cf.data_output):
             mkdir(cf.data_output)
@@ -162,6 +178,15 @@ def main():
         file_handler = open(cf.data_output + "/" + file, "w")
         file_handler.write(new_text)
         file_handler.close()
+        for alg in algorithms:
+            cnt = elements.count(alg['entity_name'])
+            if alg["masking_type"] == "Mask":
+                mask_running_log.write('Total masked for '+alg['entity_name']+": "+str(cnt)+'\n')
+            if alg["masking_type"] == "Redact":
+                mask_running_log.write('Total redacted for '+alg['entity_name']+": "+str(cnt)+'\n')
+        mask_running_log.write('END for file:'+ file+'\n')
+        mask_running_log.write('========================================================================')
+    mask_running_log.close()
 
 
 if __name__=="__main__":

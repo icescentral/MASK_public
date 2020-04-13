@@ -65,7 +65,7 @@ class NER_BiLSTM_ELMo_i2b2(object):
         additional_seq = 32 - remaining
         for i in range(0,additional_seq):
             X_seq = []
-            for j in range(0,self.max_len):
+            for i in range(0,self.max_len):
                 X_seq.append("PADword")
             word_sequences.append(X_seq)
 
@@ -85,7 +85,6 @@ class NER_BiLSTM_ELMo_i2b2(object):
         index2tags = {0:'O', 1:'ID', 2:'PHI', 3:'NAME', 4:'CONTACT',
                       5:'DATE', 6:'AGE', 7:'PROFESSION', 8:'LOCATION'}
         predictions = self.model.predict([X])
-        str_pred = []
         Y_pred_F = []
         for i in range(0, len(word_sequences)):
             seq = []
