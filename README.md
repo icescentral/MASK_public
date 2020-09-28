@@ -3,7 +3,7 @@
 # Mask Project
 
 Mask project is a collaborative project between [Institute for Clinical Evaluative Sciences](https://www.ices.on.ca/), [University of
-Manchester](https://www.manchester.ac.uk/) and [Evenset Custom Medical Software Development](https://evenset.com). The purpose of this project is masking identifiable information from health related documents.
+Manchester](https://www.manchester.ac.uk/) and [Evenset Custom Medical Software Development](https://evenset.com). The purpose of this project is masking identifiable information from health related documents. For recent publication, visit https://arxiv.org/abs/2005.11687
 
 ## Installation
 
