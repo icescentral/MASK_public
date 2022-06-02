@@ -23,7 +23,7 @@ import re
 import tensorflow_hub as hub
 #from bert.tokenization import FullTokenizer
 import tensorflow as tf
-sess = tf.Session()
+sess = tf.compat.v1.Session()
 _treebank_word_tokenizer = TreebankWordTokenizer()
 
 
