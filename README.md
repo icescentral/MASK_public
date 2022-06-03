@@ -12,10 +12,11 @@ Using a virtual environment to install project dependency is highly recommend. W
 
 1. Install [Pipenv](https://docs.pipenv.org/en/latest/install/)
 or simply run the following `python3 -m pip install --user pipenv`
-2. The requirements file is in Pipefile, you can install dependency by running `pipenv install`
+2. The requirements file is in Pipefile, you can install dependency by running `pipenv install` or if it doesn't work `python -m pipenv install`
 3. Sometimes lock file subprocess hangs, you can avoid it by running your installation with something like this `PIP_NO_CACHE_DIR=off pipenv install keras==2.2.4`
 4. You can run python files locally on your dev machine through pipenv by `pipenv run python index.py` or activating your virtualenv by `pipenv shell`
-
+5. Install/Downgrade Keras to version 2.6.0 by running `pip install keras==2.6.0`
+6. You can download base models trained on i2b2 data [here](https://drive.google.com/file/d/1h-DADgBOMC5-B3D15xRJ_nBJa19Vilrp/view?usp=sharing). Once downloaded unzip and place content into the Models folder of MASK
 ## Running
 
 There are two main files that are used to run Mask:
@@ -26,7 +27,7 @@ More concretly:
 
 `python train_framework.py --source-type i2b2 --source_location "dataset/i2b2/" --algorithm NER_CRF --do_test yes --save_model yes --epochs 5`
 
-- mask_framework.py - This file is used to run NER and masking. As input it uses a set of text files and outputs a set of text fules. Input and output paths, as well as masking and NER algorithms are defined in configuration.cnf file. 
+- mask_framework.py - This file is used to run NER and masking. As input it uses a set of text files and outputs a set of text fules. Input and output paths, as well as masking and NER algorithms are defined in configuration.cnf file.
 
 Training of NER algorithms is at the moment supported only if in i2b2 format (other format need to be converted to this format). i2b2 2014, which have been used in development of this tool can be requested at the following location: https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
