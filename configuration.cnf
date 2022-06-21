@@ -17,6 +17,18 @@
             <masking_type>Mask</masking_type>
             <masking_class>Mask_date_simple</masking_class>
         </entity>
+		<entity>
+            <entity_name>PROFESSION</entity_name>
+            <original_name>PROFESSION</original_name>
+            <algorithm>NER_CRF</algorithm>
+            <masking_type>Redact</masking_type>
+        </entity>
+		<entity>
+            <entity_name>LOCATION</entity_name>
+            <original_name>LOCATION</original_name>
+            <algorithm>NER_CRF</algorithm>
+            <masking_type>Redact</masking_type>
+        </entity>
     </algorithms>
     <dataset>
         <dataset_location>dataset/input</dataset_location>
