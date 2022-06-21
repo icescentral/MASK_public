@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/icescentral/mask.svg?token=JiqKgisBJvSwPnKWKxhV&branch=develop)](https://travis-ci.com/icescentral/mask)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/mask-a-flexible-framework-to-facilitate-de/named-entity-recognition-on-i2b2-de)](https://paperswithcode.com/sota/named-entity-recognition-on-i2b2-de?p=mask-a-flexible-framework-to-facilitate-de)
 
 # Mask Project
 
