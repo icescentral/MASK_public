@@ -52,5 +52,5 @@ Please cite the following paper:
 
 ### Contributors
 1. [Nikola Milosevic](http://inspiratron.org/)
-2. Arina Belova
+2. [Arina Belova](mailto:arishkabelova1999@gmail.com)
 3. [Hesam Dadafarin](https://evenset.com/blog/author/admin/)
